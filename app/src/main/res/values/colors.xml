@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="main_theme">#a6da57</color>
+    <color name="main_theme_dark">#81a549</color>
+    <color name="grey">@android:color/darker_gray</color>
+    <color name="my_blue">#19b6f4</color>
+    <color name="actionbar_title_color">@android:color/white</color>
+    <color name="dark_white">#eeeeee</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#0bb3f6</color>
+</resources>

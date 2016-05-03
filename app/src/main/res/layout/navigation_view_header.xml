@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:background="@android:color/white"
+    android:background="@drawable/chateau"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
@@ -12,9 +12,9 @@
         android:padding="16dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:text="email@lourmarin.com"
+        android:text="@string/email"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

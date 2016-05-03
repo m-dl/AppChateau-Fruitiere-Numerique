@@ -2,9 +2,9 @@
     <!-- the theme applied to the application or activity -->
     <style name="AppBaseTheme"
         parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorPrimary">@android:color/holo_blue_dark</item>
-        <item name="android:colorPrimaryDark">@android:color/holo_blue_light</item>
-        <item name="android:statusBarColor">@android:color/holo_orange_light</item>
+        <item name="android:colorPrimary">@color/blue</item>
+        <item name="android:colorPrimaryDark">@color/blue</item>
+        <item name="android:statusBarColor">@color/blue</item>
         <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 
