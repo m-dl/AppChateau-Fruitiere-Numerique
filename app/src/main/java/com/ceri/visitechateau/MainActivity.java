@@ -196,23 +196,23 @@ public class MainActivity extends TileViewActivity {
 		m_DrawerLayout.setDrawerListener(m_DrawerToggle);
 		m_DrawerLayout.isDrawerOpen(m_NavigationView);
 		m_NavigationView.setNavigationItemSelectedListener(
-			new NavigationView.OnNavigationItemSelectedListener() {
-				MenuItem m_menuItem;
+				new NavigationView.OnNavigationItemSelectedListener() {
+					MenuItem m_menuItem;
 
-				@Override
-				public boolean onNavigationItemSelected(MenuItem menuItem) {
-					m_DrawerLayout.closeDrawers();
-					m_menuItem = menuItem;
-					new Handler().postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							m_menuItem.setChecked(true);
-							navigationDrawerItemSelected(m_menuItem.getItemId(), m_menuItem.getTitle().toString());
-						}
-					}, 250);
-					return false;
-				}
-			});
+					@Override
+					public boolean onNavigationItemSelected(MenuItem menuItem) {
+						m_DrawerLayout.closeDrawers();
+						m_menuItem = menuItem;
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								m_menuItem.setChecked(true);
+								navigationDrawerItemSelected(m_menuItem.getItemId(), m_menuItem.getTitle().toString());
+							}
+						}, 250);
+						return false;
+					}
+				});
 	}
 
 	public void navigationDrawerItemSelected(int position, String title) {
@@ -222,7 +222,7 @@ public class MainActivity extends TileViewActivity {
 				//prepareVisit(title);
 				//CurrentState.getInstance().setM_fragment(true);
 			} else
-				Toast.makeText(m_Context, "Je ne peux accèder à la mémoire", Toast.LENGTH_LONG).show();
+				Toast.makeText(m_Context, resources.getString(R.string.memory_access_error), Toast.LENGTH_LONG).show();
 		} else {
 			if (title.equals(resources.getString(R.string.action_section_1)) || title.equals(resources.getString(R.string.action_section_english_1))) {
 				TakePicture takePicture = new TakePicture(m_Activity);

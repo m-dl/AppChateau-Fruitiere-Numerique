@@ -10,10 +10,10 @@ public class TileViewActivity extends AppCompatActivity {
 	private TileView tileView;
 	
 	@Override
-	public void onCreate( Bundle savedInstanceState ) {
-		super.onCreate( savedInstanceState );
-		tileView = new TileView( this );
-		setContentView( tileView );
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		tileView = new TileView(this);
+		setContentView(tileView);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class TileViewActivity extends AppCompatActivity {
 	 * This is a convenience method to moveToAndCenter after layout (which won't happen if called directly in onCreate
 	 * see https://github.com/moagrius/TileView/wiki/FAQ
 	 */
-	public void frameTo( final double x, final double y ) {
+	public void frameTo(final double x, final double y) {
 		if(getTileView() != null) {
 			getTileView().post(new Runnable() {
 				@Override

@@ -14,5 +14,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="memory_access_error">Je ne peux accèder à la mémoire</string>
+
     <string name="action_settings">Settings</string>
 </resources>
