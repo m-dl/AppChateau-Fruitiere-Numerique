@@ -34,6 +34,7 @@ import static com.ceri.visitechateau.tool.ConnectionManager.isNetworkAvailable;
 public class MainActivity extends TileViewActivity {
 
 	private int updateActivityNb = 0;
+	Resources resources;
 	private Context m_Context;
 	private Activity m_Activity;
 	private static MainActivity instance;
@@ -88,6 +89,7 @@ public class MainActivity extends TileViewActivity {
 	private void initObjects() {
 		setContentView(R.layout.main_main_activity);
 		ButterKnife.bind(this);
+		resources = getResources();
 		m_Context = getContext();
 		m_Activity = MainActivity.this;
 		param = new ScreenParam();
@@ -162,6 +164,7 @@ public class MainActivity extends TileViewActivity {
 						AppParams.getInstance().setM_french(false);
 						m_NavigationView.getMenu().clear();
 						FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
+						renameActionBar(resources.getString(R.string.app_name_en));
 						dialog.cancel();
 					}
 				})
@@ -180,9 +183,13 @@ public class MainActivity extends TileViewActivity {
 	}
 
 	private void prepareVisit(String title) {
+		renameActionBar(title);
+	}
+
+	private void renameActionBar(String s) {
 		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null)
-			actionBar.setTitle(title);
+			actionBar.setTitle(s);
 	}
 
 	public void setDrawer() {
@@ -217,7 +224,6 @@ public class MainActivity extends TileViewActivity {
 			} else
 				Toast.makeText(m_Context, "Je ne peux accèder à la mémoire", Toast.LENGTH_LONG).show();
 		} else {
-			Resources resources = getResources();
 			if (title.equals(resources.getString(R.string.action_section_1)) || title.equals(resources.getString(R.string.action_section_english_1))) {
 				TakePicture takePicture = new TakePicture(m_Activity);
 				takePicture.photo();
@@ -249,5 +255,16 @@ public class MainActivity extends TileViewActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		m_DrawerToggle.syncState();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return m_DrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 	}
 }
