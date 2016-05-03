@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.ceri.visitechateau.tool.FileManager;
 import com.ceri.visitechateau.tool.ScreenParam;
 import com.ceri.visitechateau.tool.TakePicture;
@@ -36,11 +38,11 @@ public class MainActivity extends TileViewActivity {
 	private Activity m_Activity;
 	private static MainActivity instance;
 
-	@Bind(R.id.navigationView)
-	NavigationView m_NavigationView;
-
 	@Bind(R.id.drawer_layout)
 	DrawerLayout m_DrawerLayout;
+
+	@Bind(R.id.navigationView)
+	NavigationView m_NavigationView;
 
 	@Bind(R.id.toolbar)
 	Toolbar m_Toolbar;
@@ -72,17 +74,19 @@ public class MainActivity extends TileViewActivity {
 		if(isNetworkAvailable()) {
 			FileManager.UpdateMedia();
 		}
-		// create visits dynamically and the menu
-		//FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
 		initObjects();
 		initMap();
 		selectLanguage();
+
+		// create visits dynamically and the menu
+		FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
 
 		//NavigationView dl = (NavigationView) findViewById(R.id.navigationView);
 		//tileView.addView(dl, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 	}
 
 	private void initObjects() {
+		setContentView(R.layout.main_main_activity);
 		ButterKnife.bind(this);
 		m_Context = getContext();
 		m_Activity = MainActivity.this;
@@ -91,6 +95,7 @@ public class MainActivity extends TileViewActivity {
 		param.paramSetSupportActionBar(m_Toolbar, this);
 		m_DrawerToggle = new ActionBarDrawerToggle(this, m_DrawerLayout, 0, 0);
 		setDrawer();
+		presentTheDrawer();
 	}
 
 	private void initMap() {
@@ -170,6 +175,10 @@ public class MainActivity extends TileViewActivity {
 		alertDialog.show();
 	}
 
+	private void presentTheDrawer() {
+		m_DrawerLayout.openDrawer(GravityCompat.START);
+	}
+
 	private void prepareVisit(String title) {
 		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null)
@@ -180,23 +189,23 @@ public class MainActivity extends TileViewActivity {
 		m_DrawerLayout.setDrawerListener(m_DrawerToggle);
 		m_DrawerLayout.isDrawerOpen(m_NavigationView);
 		m_NavigationView.setNavigationItemSelectedListener(
-				new NavigationView.OnNavigationItemSelectedListener() {
-					MenuItem m_menuItem;
+			new NavigationView.OnNavigationItemSelectedListener() {
+				MenuItem m_menuItem;
 
-					@Override
-					public boolean onNavigationItemSelected(MenuItem menuItem) {
-						m_DrawerLayout.closeDrawers();
-						m_menuItem = menuItem;
-						new Handler().postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								m_menuItem.setChecked(true);
-								navigationDrawerItemSelected(m_menuItem.getItemId(), m_menuItem.getTitle().toString());
-							}
-						}, 250);
-						return false;
-					}
-				});
+				@Override
+				public boolean onNavigationItemSelected(MenuItem menuItem) {
+					m_DrawerLayout.closeDrawers();
+					m_menuItem = menuItem;
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							m_menuItem.setChecked(true);
+							navigationDrawerItemSelected(m_menuItem.getItemId(), m_menuItem.getTitle().toString());
+						}
+					}, 250);
+					return false;
+				}
+			});
 	}
 
 	public void navigationDrawerItemSelected(int position, String title) {
@@ -223,13 +232,13 @@ public class MainActivity extends TileViewActivity {
 
 	@Override
 	public void onResume() {
-		super.onResume();/*
+		super.onResume();
 		// reload menu if update medias - it's activity nb < 3
 		if(updateActivityNb < 3) {
 			m_NavigationView.getMenu().clear();
 			FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
 			updateActivityNb++;
-		}*/
+		}
 	}
 
 	@Override

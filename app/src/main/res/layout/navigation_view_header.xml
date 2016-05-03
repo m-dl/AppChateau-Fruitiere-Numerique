@@ -6,7 +6,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
-        android:id="@+id/test"
+        android:id="@+id/headerEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -15,6 +15,6 @@
         android:text="email@lourmarin.com"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/black"/>
 
 </RelativeLayout>
