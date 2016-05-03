@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Visite du Château de Lourmarin</string>
+    <string name="option_section">Options</string>
+    <string name="action_section_1">Prendre une photo</string>
+    <string name="action_section_english_1">Take a picture</string>
+
+    <string name="set_english_app_title">The application is currently in French</string>
+    <string name="set_english_app">Set the application in English?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
