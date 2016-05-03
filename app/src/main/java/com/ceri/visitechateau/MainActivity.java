@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.ceri.visitechateau.tool.FileManager;
 import com.ceri.visitechateau.tool.ScreenParam;
 import com.ceri.visitechateau.tool.TakePicture;
