@@ -40,7 +40,7 @@ import java.io.OutputStream;
  */
 public class HomeActivity extends BaseActivity {
 
-    private static final String CHATEAU_MEDIAS = "VisiteTablette";
+    private static final String CHATEAU_MEDIAS = "VisiteChateau";
     private static final String ZIP_EXT = ".zip";
     private static final String DIR_FOR_DOWNLOADS = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 

@@ -25,7 +25,7 @@ public class FileManager {
             Pattern.CASE_INSENSITIVE);
 
     public static File SD_CARD = Environment.getExternalStorageDirectory();
-    public static String MEDIA_PATH = "/VisiteTablette";
+    public static String MEDIA_PATH = "/VisiteChateau";
     public static String ZIP = ".zip";
 
     // Delete a file / directory
