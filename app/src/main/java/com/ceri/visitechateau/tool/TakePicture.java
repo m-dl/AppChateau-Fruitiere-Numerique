@@ -17,8 +17,8 @@ public class TakePicture {
 
     private Context m_Context;
     private Activity m_Activity;
-    public static String PHOTO_FOLDER = "/VisiteChateau";
-    public static File PICTURE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + PHOTO_FOLDER);
+    final public static String PHOTO_FOLDER = "/VisiteChateau";
+    final public static File PICTURE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + PHOTO_FOLDER);
 
     public TakePicture(Activity activity) {
         m_Activity = activity;

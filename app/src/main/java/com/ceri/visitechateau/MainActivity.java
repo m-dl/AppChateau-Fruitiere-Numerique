@@ -22,7 +22,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.ceri.visitechateau.tool.FileManager;
+import com.ceri.visitechateau.entities.chateau.Visit;
+import com.ceri.visitechateau.files.FileManager;
 import com.ceri.visitechateau.tool.ScreenParam;
 import com.ceri.visitechateau.tool.TakePicture;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
 	ActionBarDrawerToggle m_DrawerToggle;
 	ScreenParam param;
+	private FileManager FM;
 
 	// Constructor
 	public MainActivity() {
@@ -87,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void initObjects() {
-		setContentView(R.layout.main_main_activity);
+		setContentView(R.layout.main);
 		ButterKnife.bind(this);
+		FM = FileManager.getInstance();
 		resources = getResources();
 		m_Context = getContext();
 		m_FragmentManager = getSupportFragmentManager();
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 		presentTheDrawer();
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.add(R.id.map, new TileViewActivity(), "tileviewactivity");
+		ft.add(R.id.map, new TileViewActivity(), "TileViewActivity");
 		ft.commit();
 	}
 
@@ -136,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void prepareVisit(String title) {
+		Visit visit = FM.getChateauWorkspace().searchVisit(title, AppParams.getInstance().getM_french());
+		Toast.makeText(m_Context, "Visite choisie:" + visit.getName(), Toast.LENGTH_SHORT).show();
 		renameActionBar(title);
 	}
 
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 		if (position > 0) {
 			if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 				//CurrentState.getInstance().removeFragment();
-				//prepareVisit(title);
+				prepareVisit(title);
 				//CurrentState.getInstance().setM_fragment(true);
 			} else
 				Toast.makeText(m_Context, resources.getString(R.string.memory_access_error), Toast.LENGTH_LONG).show();
@@ -196,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
 		if(updateActivityNb < 3) {
 			m_NavigationView.getMenu().clear();
 			FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
+			FM.Init();
 			updateActivityNb++;
 		}
 	}
