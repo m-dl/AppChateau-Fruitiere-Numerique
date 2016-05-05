@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.ceri.visitechateau.MainActivity;
+import com.ceri.visitechateau.main.MainActivity;
 
 /**
  * Created by Maxime

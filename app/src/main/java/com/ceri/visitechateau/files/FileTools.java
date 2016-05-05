@@ -187,7 +187,6 @@ public class FileTools {
     
     	if(!isMatch) {
     		input = "";
-    		System.out.println("Coordonnées saisies invalides !");
     	}
         return input;
     }

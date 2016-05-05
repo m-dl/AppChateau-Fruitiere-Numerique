@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.design.widget.NavigationView;
 
-import com.ceri.visitechateau.MainActivity;
+import com.ceri.visitechateau.main.MainActivity;
 import com.ceri.visitechateau.R;
 import com.ceri.visitechateau.entities.chateau.Location;
 import com.ceri.visitechateau.entities.chateau.Visit;
@@ -92,7 +92,7 @@ public class FileManager {
                 order++;
             }
         }
-        if (FileManager.getInstance().getChateauWorkspace().getV() != null)
+        if(!FileManager.getInstance().getChateauWorkspace().getV().isEmpty())
             order--;
         if (french) {
             m_NavigationView.getMenu().addSubMenu(groupId, itemId, order, R.string.option_section).add(R.string.action_section_1);

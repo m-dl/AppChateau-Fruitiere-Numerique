@@ -26,27 +26,31 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.AppBarLayout>
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/map"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.ceri.visitechateau.TileViewActivity" />
+            android:orientation="vertical">
 
-        <!--<FrameLayout-->
-            <!--android:id="@+id/IP_fragment"-->
-            <!--android:layout_marginTop="80dp"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+            <!--<FrameLayout-->
+                <!--android:id="@+id/IP_fragment"-->
+                <!--android:layout_marginTop="80dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
 
+        </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 
-        <android.support.design.widget.NavigationView
+    <android.support.design.widget.NavigationView
             android:id="@+id/navigationView"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:background="@color/white"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true"
+            aLinearLayoutystemWindows="true"
             app:itemTextColor="@color/black"
             app:headerLayout="@layout/navigation_view_header"
             app:menu="@menu/navigation_view_elements"/>

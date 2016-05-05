@@ -1,4 +1,4 @@
-package com.ceri.visitechateau;
+package com.ceri.visitechateau.params;
 
 import android.support.v4.app.FragmentManager;
 

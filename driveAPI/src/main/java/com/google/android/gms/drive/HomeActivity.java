@@ -15,7 +15,6 @@
 package com.google.android.gms.drive;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.ProgressBar;
@@ -52,7 +51,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.main_drive);
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBarDl);
