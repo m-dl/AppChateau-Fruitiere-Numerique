@@ -114,12 +114,9 @@ public class MainActivity extends AppCompatActivity {
 		LinearLayout.LayoutParams tileViewLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
 		linearLayout.addView(tileView, tileViewLayout);
 		// size of original image at 100% scale
-		tileView.setSize(2736, 2880);
+		tileView.setSize(4000, 3561);
 		// detail levels
-		tileView.addDetailLevel(1.000f, "tiles/plans/1000/%col%_%row%.jpg", "samples/plans.JPG");
-		tileView.addDetailLevel(0.500f, "tiles/plans/500/%col%_%row%.jpg", "samples/plans.JPG");
-		tileView.addDetailLevel(0.250f, "tiles/plans/250/%col%_%row%.jpg", "samples/plans.JPG");
-		tileView.addDetailLevel(0.125f, "tiles/plans/125/%col%_%row%.jpg", "samples/plans.JPG");
+		tileView.addDetailLevel(1.000f, "maps/%col%_%row%.jpg", "maps/planchateau.jpg");
 		// let's use 0-1 positioning...
 		tileView.defineRelativeBounds(0, 0, 1, 1);
 		// center markers along both axes
@@ -131,11 +128,9 @@ public class MainActivity extends AppCompatActivity {
 		// center the frame
 		TileViewTools.frameTo(tileView, 0.5, 0.5);
 		// add some pins...
-		TileViewTools.addPin(tileView, getContext(), 0.25, 0.25);
-		TileViewTools.addPin(tileView, getContext(), 0.25, 0.75);
-		TileViewTools.addPin(tileView, getContext(), 0.75, 0.25);
-		TileViewTools.addPin(tileView, getContext(), 0.75, 0.75);
-		TileViewTools.addPin(tileView, getContext(), 0.50, 0.50);
+		TileViewTools.addPin(tileView, getContext(), 0.5125,0.39666666666666667);
+		TileViewTools.addPin(tileView, getContext(), 0.1175,0.39666666666666667);
+		TileViewTools.addPin(tileView, getContext(), 0.895,0.13);
 	}
 
 	private void selectLanguage() {
