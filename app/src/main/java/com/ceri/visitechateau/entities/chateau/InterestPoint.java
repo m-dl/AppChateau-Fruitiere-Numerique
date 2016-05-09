@@ -13,6 +13,8 @@ public class InterestPoint {
 	private File presentation_FR, presentation_EN, marker, picture, name_EN;
 	private ArrayList<File> photos, interieur, _360, videos;
 	private String name, nameEN;
+	private int floor;
+	private double coordX, coordY;
 	
 	/**
 	 * @param pathFrom
@@ -37,6 +39,10 @@ public class InterestPoint {
 			this.picture = tmpPicture.get(0);
 		this.name = name;
 		this.nameEN = readName_EN();
+		this.coordX = 0;
+		this.coordY = 0;
+		this.floor = 0;
+		readMarker(this.floor, this.coordX, this.coordY);
 	}
 	
 	private void initInterestPoint(String pathFrom) {
@@ -62,8 +68,8 @@ public class InterestPoint {
 		return FileTools.Read(this.name_EN);
 	}
 	
-	public String readMarker() {
-		return FileTools.Read(this.marker);
+	public void readMarker(int floor, double coordX, double coordY) {
+		FileTools.ParseCoordinates(this.marker, floor, coordX, coordY);
 	}
 
 	public File getPresentation_FR() {
@@ -152,5 +158,29 @@ public class InterestPoint {
 
 	public void setNameEN(String nameEN) {
 		this.nameEN = nameEN;
+	}
+
+	public double getCoordX() {
+		return coordX;
+	}
+
+	public void setCoordX(double coordX) {
+		this.coordX = coordX;
+	}
+
+	public double getCoordY() {
+		return coordY;
+	}
+
+	public void setCoordY(double coordY) {
+		this.coordY = coordY;
+	}
+
+	public int getFloor() {
+		return floor;
+	}
+
+	public void setFloor(int floor) {
+		this.floor = floor;
 	}
 }

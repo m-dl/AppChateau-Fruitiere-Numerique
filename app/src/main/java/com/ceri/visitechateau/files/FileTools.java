@@ -11,17 +11,11 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Maxime
  */
 public class FileTools {
-	public static final Pattern GPS = Pattern.compile(
-			"([+-]?\\d+\\.?\\d+)\\s*,\\s*([+-]?\\d+\\.?\\d+)", 
-	        Pattern.CASE_INSENSITIVE);
-	
     public static final String[] IMAGES_EXTENSIONS = new String[]{
         "gif", "png", "bmp", "jpeg", "jpg", "GIF", "PNG", "BMP", "JPEG", "JPG"
     };
@@ -172,23 +166,29 @@ public class FileTools {
             if(file.isDirectory()){ // Overview or Info or IP folder
                 if(!file.getName().equals(FileManager.OVERVIEW_FOLDER) && !file.getName().equals(FileManager.INFO_FOLDER)) {
                 	InterestPoint tmpIP = new InterestPoint(pathFrom + "/" + file.getName(), file.getName());
-                	tmpVisit.addInterestPoint(tmpIP);
+					if(tmpIP.getFloor() == Location.FLOOR_ONE)
+                		tmpVisit.addInterestPoint(tmpIP, tmpVisit.getIP1());
+					else if(tmpIP.getFloor() == Location.FLOOR_TWO)
+						tmpVisit.addInterestPoint(tmpIP, tmpVisit.getIP2());
+					else if(tmpIP.getFloor() == Location.FLOOR_THREE)
+						tmpVisit.addInterestPoint(tmpIP, tmpVisit.getIP3());
                 }
             }
         }
         l.addVisit(tmpVisit);
     }
     
-    // Parse GPS coordinates
-    public static String ParseCoordinates(String input) {
-    	input = StringClearAllSpaces(input);
-    	Matcher matcher = GPS.matcher(input);
-    	boolean isMatch = matcher.matches();
-    
-    	if(!isMatch) {
-    		input = "";
-    	}
-        return input;
+    // Parse floor and coordinates
+    public static void ParseCoordinates(File marker, int floor, double coordX, double coordY) {
+		String input = Read(marker);
+		if(input != null) {
+			String[] lines = input.split(System.getProperty("line.separator"));
+			if(lines.length > 1) {
+				floor = Integer.parseInt(lines[0]);
+				coordX = Double.parseDouble(lines[1]);
+				coordY = Double.parseDouble(lines[1]);
+			}
+		}
     }
 
 }

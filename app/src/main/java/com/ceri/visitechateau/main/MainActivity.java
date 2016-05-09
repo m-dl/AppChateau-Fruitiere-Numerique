@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 		LinearLayout.LayoutParams tileViewLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
 		linearLayout.addView(tileView, tileViewLayout);
 		// size of original image at 100% scale
-		tileView.setSize(4000, 3561);
+		tileView.setSize(4000, 2762);
 		// detail levels
 		tileView.addDetailLevel(1.000f, "maps/floor_1/%col%_%row%.jpg", "maps/floor_1/planchateau.jpg");
 		// let's use 0-1 positioning...
