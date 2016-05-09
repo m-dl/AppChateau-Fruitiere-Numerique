@@ -42,7 +42,7 @@ public class InterestPoint {
 		this.coordX = 0;
 		this.coordY = 0;
 		this.floor = 0;
-		readMarker(this.floor, this.coordX, this.coordY);
+		readMarker();
 	}
 	
 	private void initInterestPoint(String pathFrom) {
@@ -68,8 +68,8 @@ public class InterestPoint {
 		return FileTools.Read(this.name_EN);
 	}
 	
-	public void readMarker(int floor, double coordX, double coordY) {
-		FileTools.ParseCoordinates(this.marker, floor, coordX, coordY);
+	public void readMarker() {
+		FileTools.ParseCoordinates(this);
 	}
 
 	public File getPresentation_FR() {
