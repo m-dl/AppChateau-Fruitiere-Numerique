@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 	private Context m_Context;
 	private Activity m_Activity;
 	private static MainActivity instance;
-	private FragmentManager m_FragmentManager;
 	private ActionBarDrawerToggle m_DrawerToggle;
 	private ScreenParam param;
 	private FileManager FM;
@@ -96,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
 		FM = FileManager.getInstance();
 		resources = getResources();
 		m_Context = getContext();
-		m_FragmentManager = getSupportFragmentManager();
-		AppParams.getInstance().setM_FragmentManager(m_FragmentManager);
 		m_Activity = MainActivity.this;
 		param = new ScreenParam();
 		param.paramWindowFullScreen(getWindow());
@@ -200,9 +196,7 @@ public class MainActivity extends AppCompatActivity {
 	public void navigationDrawerItemSelected(int position, String title) {
 		if (position > 0) {
 			if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-				//CurrentState.getInstance().removeFragment();
 				prepareVisit(title);
-				//CurrentState.getInstance().setM_fragment(true);
 			} else
 				Toast.makeText(m_Context, resources.getString(R.string.memory_access_error), Toast.LENGTH_LONG).show();
 		} else {
