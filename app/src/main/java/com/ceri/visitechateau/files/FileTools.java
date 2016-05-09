@@ -185,8 +185,11 @@ public class FileTools {
 			String[] lines = input.split(System.getProperty("line.separator"));
 			if(lines.length > 1) {
 				floor = Integer.parseInt(lines[0]);
-				coordX = Double.parseDouble(lines[1]);
-				coordY = Double.parseDouble(lines[1]);
+				String[] coord = lines[1].split(",");
+				if(coord.length > 1) {
+					coordX = Double.parseDouble(coord[0]);
+					coordY = Double.parseDouble(coord[1]);
+				}
 			}
 		}
     }
