@@ -27,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ceri.visitechateau.R;
+import com.ceri.visitechateau.entities.chateau.InterestPoint;
+import com.ceri.visitechateau.entities.chateau.Location;
 import com.ceri.visitechateau.entities.chateau.Visit;
 import com.ceri.visitechateau.files.FileManager;
 import com.ceri.visitechateau.info.InfoActivity;
@@ -35,6 +37,8 @@ import com.ceri.visitechateau.tileview.TileViewTools;
 import com.ceri.visitechateau.tool.ScreenParam;
 import com.ceri.visitechateau.tool.TakePicture;
 import com.qozix.tileview.TileView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -106,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
 	private void initObjects() {
 		setContentView(R.layout.main);
-		initMap();
 		ButterKnife.bind(this);
 		FM = FileManager.getInstance();
 		resources = getResources();
@@ -118,9 +121,12 @@ public class MainActivity extends AppCompatActivity {
 		m_DrawerToggle = new ActionBarDrawerToggle(this, m_DrawerLayout, 0, 0);
 		setDrawer();
 		presentTheDrawer();
+		initMap(Location.FLOOR_ONE);
 	}
 
-	private void initMap() {
+	private void initMap(int f) {
+		String floorPath = "maps/floor_" + f + "/%col%_%row%.jpg";
+		String floorPath2 = "maps/floor_" + f + "/planchateau.jpg";
 		linearLayout = (LinearLayout) findViewById(R.id.map);
 		// multiple references
 		tileView = new TileView(this);
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 		// size of original image at 100% scale
 		tileView.setSize(4000, 2762);
 		// detail levels
-		tileView.addDetailLevel(1.000f, "maps/floor_1/%col%_%row%.jpg", "maps/floor_1/planchateau.jpg");
+		tileView.addDetailLevel(1.000f, floorPath, floorPath2);
 		// let's use 0-1 positioning...
 		tileView.defineRelativeBounds(0, 0, 1, 1);
 		// center markers along both axes
@@ -141,35 +147,32 @@ public class MainActivity extends AppCompatActivity {
 		// center the frame
 		TileViewTools.frameTo(tileView, 0.5, 0.5);
 		// add some pins...
-		TileViewTools.addPin(tileView, getContext(), 0.5125,0.39666666666666667);
-		TileViewTools.addPin(tileView, getContext(), 0.1175, 0.39666666666666667);
-		TileViewTools.addPin(tileView, getContext(), 0.895, 0.13);
+		initPins(f);
 	}
 
-	private void initMap2() {
-		linearLayout = (LinearLayout) findViewById(R.id.map);
-		// multiple references
-		tileView = new TileView(this);
-		LinearLayout.LayoutParams tileViewLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
-		linearLayout.addView(tileView, tileViewLayout);
-		// size of original image at 100% scale
-		tileView.setSize(4000, 2656);
-		// detail levels
-		tileView.addDetailLevel(1.000f, "maps/floor_2/%col%_%row%.jpg", "maps/floor_2/planchateau.jpg");
-		// let's use 0-1 positioning...
-		tileView.defineRelativeBounds(0, 0, 1, 1);
-		// center markers along both axes
-		tileView.setMarkerAnchorPoints(-0.5f, -0.5f);
-		// add marker event when touched
-		tileView.addMarkerEventListener(TileViewTools.markerEventListener);
-		// scale it down to manageable size
-		tileView.setScale(0.5);
-		// center the frame
-		TileViewTools.frameTo(tileView, 0.5, 0.5);
-		// add some pins...
-		TileViewTools.addPin(tileView, getContext(), 0.2125,0.39666666666666667);
-		TileViewTools.addPin(tileView, getContext(), 0.5175, 0.39666666666666667);
-		TileViewTools.addPin(tileView, getContext(), 0.695, 0.13);
+	private void initPins(int f) {
+		if(AppParams.getInstance().getCurrentVisit() != null) {
+			ArrayList<InterestPoint> IPArray = new ArrayList<InterestPoint>();
+			if(f == Location.FLOOR_ONE)
+				IPArray = AppParams.getInstance().getCurrentVisit().getIP1();
+			else if(f == Location.FLOOR_TWO)
+				IPArray = AppParams.getInstance().getCurrentVisit().getIP2();
+			else if(f == Location.FLOOR_THREE)
+				IPArray = AppParams.getInstance().getCurrentVisit().getIP3();
+			for(InterestPoint IP : IPArray) {
+				TileViewTools.addPin(tileView, getContext(), IP.getCoordX(), IP.getCoordY());
+			}
+			if(AppParams.getInstance().getM_french())
+				renameActionBar(AppParams.getInstance().getCurrentVisit().getName() + resources.getString(R.string.etage_toolbar) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+			else
+				renameActionBar(AppParams.getInstance().getCurrentVisit().getNameEN() + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+		}
+		else {
+			if (AppParams.getInstance().getM_french())
+				renameActionBar(resources.getString(R.string.app_name) + resources.getString(R.string.etage_toolbar) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+			else
+				renameActionBar(resources.getString(R.string.app_name_en) + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+		}
 	}
 
 	private void selectLanguage() {
@@ -183,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 						AppParams.getInstance().setM_french(false);
 						m_NavigationView.getMenu().clear();
 						FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
-						renameActionBar(resources.getString(R.string.app_name_en));
+						renameActionBar(resources.getString(R.string.app_name_en) + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
 						dialog.cancel();
 					}
 				})
@@ -204,7 +207,15 @@ public class MainActivity extends AppCompatActivity {
 	private void prepareVisit(String title) {
 		Visit visit = FM.getChateauWorkspace().searchVisit(title, AppParams.getInstance().getM_french());
 		Toast.makeText(m_Context, "Visite choisie:" + visit.getName(), Toast.LENGTH_SHORT).show();
-		renameActionBar(title);
+		AppParams.getInstance().setCurrentVisit(visit);
+		// remove all view or it doesn't work
+		linearLayout.removeAllViewsInLayout();
+		// rebuild the new map
+		initMap(AppParams.getInstance().getCurrentFloor());
+		if(!AppParams.getInstance().getM_french())
+			renameActionBar(title + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+		else
+			renameActionBar(title + resources.getString(R.string.etage_toolbar) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
 	}
 
 	private void renameActionBar(String s) {
@@ -262,18 +273,26 @@ public class MainActivity extends AppCompatActivity {
 
 	@OnClick(R.id.map_floors_up)
 	public void onFloorUpClick() {
-		// remove all view or it doesn't work
-		linearLayout.removeAllViewsInLayout();
-		// rebuild the new map
-		initMap2();
+		if(AppParams.getInstance().getCurrentFloor() < Location.FLOOR_THREE) {
+			int tmpFloor = AppParams.getInstance().getCurrentFloor() + 1;
+			AppParams.getInstance().setCurrentFloor(tmpFloor);
+			// remove all view or it doesn't work
+			linearLayout.removeAllViewsInLayout();
+			// rebuild the new map
+			initMap(tmpFloor);
+		}
 	}
 
 	@OnClick(R.id.map_floors_down)
 	public void onFloorDownClick() {
-		// remove all view or it doesn't work
-		linearLayout.removeAllViewsInLayout();
-		// rebuild the new map
-		initMap2();
+		if(AppParams.getInstance().getCurrentFloor() > Location.FLOOR_ONE) {
+			int tmpFloor = AppParams.getInstance().getCurrentFloor() - 1;
+			AppParams.getInstance().setCurrentFloor(tmpFloor);
+			// remove all view or it doesn't work
+			linearLayout.removeAllViewsInLayout();
+			// rebuild the new map
+			initMap(tmpFloor);
+		}
 	}
 
 	private void launchVisitInfo(ActivityOptionsCompat options) {
