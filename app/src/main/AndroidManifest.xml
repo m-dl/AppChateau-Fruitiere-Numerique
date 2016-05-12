@@ -35,6 +35,12 @@
         <activity
             android:name=".info.InfoActivity"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".interestpoint.InterestPointActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".overview.OverviewActivity"
+            android:screenOrientation="sensorLandscape" />
     </application>
 
 </manifest>

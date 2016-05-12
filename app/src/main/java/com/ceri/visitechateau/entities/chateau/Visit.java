@@ -4,12 +4,13 @@ import com.ceri.visitechateau.files.FileManager;
 import com.ceri.visitechateau.files.FileTools;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Maxime
  */
-public class Visit {
+public class Visit implements Serializable {
 
     private ArrayList<InterestPoint> IP1, IP2, IP3;
     private Overview overview;

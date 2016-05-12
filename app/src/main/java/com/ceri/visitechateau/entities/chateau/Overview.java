@@ -4,13 +4,14 @@ import com.ceri.visitechateau.files.FileManager;
 import com.ceri.visitechateau.files.FileTools;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Maxime
  *
  */
-public class Overview {    
+public class Overview implements Serializable {
 	private File presentation_FR, presentation_EN, length_FR, length_EN;
 	private ArrayList<File> imagesContent;
 	

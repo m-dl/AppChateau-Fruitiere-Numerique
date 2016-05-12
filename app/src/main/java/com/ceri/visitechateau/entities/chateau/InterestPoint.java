@@ -4,12 +4,13 @@ import com.ceri.visitechateau.files.FileManager;
 import com.ceri.visitechateau.files.FileTools;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Maxime
  */
-public class InterestPoint {    
+public class InterestPoint implements Serializable {
 	private File presentation_FR, presentation_EN, marker, picture, name_EN;
 	private ArrayList<File> photos, interieur, _360, videos;
 	private String name, nameEN;

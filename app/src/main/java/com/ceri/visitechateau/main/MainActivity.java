@@ -12,9 +12,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,7 +20,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,6 +29,7 @@ import com.ceri.visitechateau.entities.chateau.Location;
 import com.ceri.visitechateau.entities.chateau.Visit;
 import com.ceri.visitechateau.files.FileManager;
 import com.ceri.visitechateau.info.InfoActivity;
+import com.ceri.visitechateau.overview.OverviewActivity;
 import com.ceri.visitechateau.params.AppParams;
 import com.ceri.visitechateau.tileview.TileViewTools;
 import com.ceri.visitechateau.tool.ScreenParam;
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 	private int updateActivityNb = 0;
 	private Resources resources;
 	private Context m_Context;
-	private Activity m_Activity;
+	public static Activity m_Activity;
 	private static MainActivity instance;
 	private ActionBarDrawerToggle m_DrawerToggle;
 	private ScreenParam param;
@@ -122,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 		setDrawer();
 		presentTheDrawer();
 		initMap(Location.FLOOR_ONE);
+		m_FABInfo.hide();
 	}
 
 	private void initMap(int f) {
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 		tileView.setScale(0.5);
 		// center the frame
 		TileViewTools.frameTo(tileView, 0.5, 0.5);
-		// add some pins...
+		// add pins
 		initPins(f);
 	}
 
@@ -160,18 +159,30 @@ public class MainActivity extends AppCompatActivity {
 			else if(f == Location.FLOOR_THREE)
 				IPArray = AppParams.getInstance().getCurrentVisit().getIP3();
 			for(InterestPoint IP : IPArray) {
-				TileViewTools.addPin(tileView, getContext(), IP.getCoordX(), IP.getCoordY());
+				TileViewTools.addPin(tileView, getContext(), IP);
 			}
 			if(AppParams.getInstance().getM_french())
-				renameActionBar(AppParams.getInstance().getCurrentVisit().getName() + resources.getString(R.string.etage_toolbar) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				renameActionBar(AppParams.getInstance().getCurrentVisit().getName() +
+						resources.getString(R.string.etage_toolbar) +
+						AppParams.getInstance().getCurrentFloor() +
+						resources.getString(R.string.total_etage));
 			else
-				renameActionBar(AppParams.getInstance().getCurrentVisit().getNameEN() + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				renameActionBar(AppParams.getInstance().getCurrentVisit().getNameEN() +
+						resources.getString(R.string.etage_toolbar_en) +
+						AppParams.getInstance().getCurrentFloor() +
+						resources.getString(R.string.total_etage));
 		}
 		else {
 			if (AppParams.getInstance().getM_french())
-				renameActionBar(resources.getString(R.string.app_name) + resources.getString(R.string.etage_toolbar) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				renameActionBar(resources.getString(R.string.app_name) +
+						resources.getString(R.string.etage_toolbar) +
+						AppParams.getInstance().getCurrentFloor() +
+						resources.getString(R.string.total_etage));
 			else
-				renameActionBar(resources.getString(R.string.app_name_en) + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				renameActionBar(resources.getString(R.string.app_name_en) +
+						resources.getString(R.string.etage_toolbar_en) +
+						AppParams.getInstance().getCurrentFloor() +
+						resources.getString(R.string.total_etage));
 		}
 	}
 
@@ -186,7 +197,10 @@ public class MainActivity extends AppCompatActivity {
 						AppParams.getInstance().setM_french(false);
 						m_NavigationView.getMenu().clear();
 						FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
-						renameActionBar(resources.getString(R.string.app_name_en) + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+						renameActionBar(resources.getString(R.string.app_name_en) +
+								resources.getString(R.string.etage_toolbar_en) +
+								AppParams.getInstance().getCurrentFloor() +
+								resources.getString(R.string.total_etage));
 						dialog.cancel();
 					}
 				})
@@ -206,16 +220,20 @@ public class MainActivity extends AppCompatActivity {
 
 	private void prepareVisit(String title) {
 		Visit visit = FM.getChateauWorkspace().searchVisit(title, AppParams.getInstance().getM_french());
-		Toast.makeText(m_Context, "Visite choisie:" + visit.getName(), Toast.LENGTH_SHORT).show();
-		AppParams.getInstance().setCurrentVisit(visit);
-		// remove all view or it doesn't work
-		linearLayout.removeAllViewsInLayout();
-		// rebuild the new map
-		initMap(AppParams.getInstance().getCurrentFloor());
-		if(!AppParams.getInstance().getM_french())
-			renameActionBar(title + resources.getString(R.string.etage_toolbar_en) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
-		else
-			renameActionBar(title + resources.getString(R.string.etage_toolbar) + AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+		if(launchVisitOverview(visit)) {
+			AppParams.getInstance().setCurrentVisit(visit);
+			// remove all view or it doesn't work
+			linearLayout.removeAllViewsInLayout();
+			// rebuild the new map
+			initMap(AppParams.getInstance().getCurrentFloor());
+			if (!AppParams.getInstance().getM_french())
+				renameActionBar(title + resources.getString(R.string.etage_toolbar_en) +
+						AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+			else
+				renameActionBar(title + resources.getString(R.string.etage_toolbar) +
+						AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+			m_FABInfo.show();
+		}
 	}
 
 	private void renameActionBar(String s) {
@@ -264,11 +282,7 @@ public class MainActivity extends AppCompatActivity {
 	@OnClick(R.id.info)
 	public void onInfoClick() {
 		// launch visit info activity
-		ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-				m_Activity,
-				Pair.create((View) m_FABInfo, getResources().getString(R.string.ImageTransition))
-		);
-		launchVisitInfo(options);
+		launchVisitInfo();
 	}
 
 	@OnClick(R.id.map_floors_up)
@@ -295,9 +309,16 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	private void launchVisitInfo(ActivityOptionsCompat options) {
+	private boolean launchVisitOverview(Visit v) {
+		Intent intent = new Intent(m_Activity, OverviewActivity.class);
+		intent.putExtra("Overview", v);
+		ActivityCompat.startActivity(m_Activity, intent, null);
+		return true;
+	}
+
+	private void launchVisitInfo() {
 		Intent intent = new Intent(m_Activity, InfoActivity.class);
-		ActivityCompat.startActivity(m_Activity, intent, options.toBundle());
+		ActivityCompat.startActivity(m_Activity, intent, null);
 	}
 
 	@Override

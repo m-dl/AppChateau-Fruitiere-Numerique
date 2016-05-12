@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item type="id" name="TAG_IP_ID"/>
 
     <string name="app_name">Visite du Château de Lourmarin</string>
     <string name="app_name_en">Lourmarin Castle Visit</string>
@@ -14,7 +15,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="ImageTransition">ImageTransition</string>
     <string name="memory_access_error">Je ne peux accèder à la mémoire</string>
     <string name="etage_toolbar">\u0020- Etage :\u0020</string>
     <string name="etage_toolbar_en">\u0020- Floor :\u0020</string>
