@@ -41,6 +41,9 @@
         <activity
             android:name=".overview.OverviewActivity"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".interestpoint.SingleView"
+            android:screenOrientation="sensorLandscape" />
     </application>
 
 </manifest>
