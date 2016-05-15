@@ -36,53 +36,113 @@
             android:orientation="vertical"
             android:weightSum="1">
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <ImageView
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/main_container"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/interest_point_picture"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/interest_point_title"
-                android:layout_marginTop="-40dp"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical|center_horizontal" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/interest_point_picture"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:id="@+id/interest_point_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:textColor="@color/black"
-                android:textSize="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/interest_point_title"
+                    android:layout_marginTop="-40dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical|center_horizontal" />
 
-            <GridView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/grid_view"
-                android:layout_gravity="center_horizontal"
-                android:numColumns="auto_fit"
-                android:gravity="center"
-                android:columnWidth="100dp"
-                android:stretchMode="columnWidth"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:id="@+id/interest_point_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/interest_point_photo_title"
+                    android:textStyle="bold" />
+
+                <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/grid_view_photo"
+                    android:layout_gravity="center_horizontal"
+                    android:numColumns="auto_fit"
+                    android:gravity="center"
+                    android:columnWidth="100dp"
+                    android:stretchMode="columnWidth"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/interest_point_interieur_title"
+                    android:textStyle="bold" />
+
+                <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/grid_view_interieur"
+                    android:layout_gravity="center_horizontal"
+                    android:numColumns="auto_fit"
+                    android:gravity="center"
+                    android:columnWidth="100dp"
+                    android:stretchMode="columnWidth"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/interest_point_360_title"
+                    android:textStyle="bold" />
+
+                <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/grid_view_360"
+                    android:layout_gravity="center_horizontal"
+                    android:numColumns="auto_fit"
+                    android:gravity="center"
+                    android:columnWidth="100dp"
+                    android:stretchMode="columnWidth"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/interest_point_video_title"
+                    android:textStyle="bold" />
+
+                <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/grid_view_video"
+                    android:layout_gravity="center_horizontal"
+                    android:numColumns="auto_fit"
+                    android:gravity="center"
+                    android:columnWidth="100dp"
+                    android:stretchMode="columnWidth"/>
+
+            </LinearLayout>
         </ScrollView>
-
     </android.support.design.widget.CoordinatorLayout>
-
 </android.support.v4.widget.DrawerLayout>

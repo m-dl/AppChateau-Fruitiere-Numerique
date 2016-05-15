@@ -3,23 +3,13 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/grid_item_image"
-        android:layout_width="50px"
-        android:layout_height="50px"
-        android:layout_marginRight="10px"
-        android:src="@drawable/chateau">
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="10dp" >
     </ImageView>
-
-    <TextView
-        android:id="@+id/grid_item_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@+id/label"
-        android:layout_marginTop="5px"
-        android:textSize="15px">
-    </TextView>
 
 </LinearLayout>

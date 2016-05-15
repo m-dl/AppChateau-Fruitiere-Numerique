@@ -20,6 +20,15 @@
     <string name="etage_toolbar_en">\u0020- Floor :\u0020</string>
     <string name="total_etage">/3</string>
 
+    <string name="images">Images</string>
+    <string name="pictures">Pictures</string>
+    <string name="interieur">Intérieur</string>
+    <string name="inside">Inside</string>
+    <string name="images360">Images 360°</string>
+    <string name="pictures360">360° Pictures</string>
+    <string name="videos">Vidéos</string>
+    <string name="videosen">Videos</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_info">InfoActivity</string>
 </resources>
