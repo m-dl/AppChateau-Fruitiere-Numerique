@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ceri.visitechateau.R;
+import com.ceri.visitechateau.activities.SingleView;
 import com.ceri.visitechateau.entities.chateau.InterestPoint;
 import com.ceri.visitechateau.params.AppParams;
+import com.ceri.visitechateau.tool.ImageAdapter;
 import com.ceri.visitechateau.tool.ScreenParam;
 
 import java.io.File;
@@ -30,7 +32,6 @@ import butterknife.ButterKnife;
  * Created by Clément
  */
 public class InterestPointActivity extends AppCompatActivity {
-
     private InterestPoint IP;
     private ActionBarDrawerToggle m_DrawerToggle;
     private ScreenParam param;

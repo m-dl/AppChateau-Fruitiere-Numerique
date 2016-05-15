@@ -1,4 +1,4 @@
-package com.ceri.visitechateau.interestpoint;
+package com.ceri.visitechateau.tool;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,12 +18,12 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
 
     private Context context;
-    private final String[] mobileValues;
+    private final String[] itemGridValues;
     private ArrayList<Bitmap> myBitmaps;
 
-    public ImageAdapter(Context context, String[] mobileValues, ArrayList<Bitmap> x) {
+    public ImageAdapter(Context context, String[] itemGridValues, ArrayList<Bitmap> x) {
         this.context = context;
-        this.mobileValues = mobileValues;
+        this.itemGridValues = itemGridValues;
         this.myBitmaps = x;
     }
 
@@ -31,8 +31,8 @@ public class ImageAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View gridView;
 
-        if(convertView == null){
-            gridView = inflater.inflate(R.layout.mobile, null);
+        if(convertView == null) {
+            gridView = inflater.inflate(R.layout.grid_item_image, null);
             //Set image based on selected image
             ImageView imageView = (ImageView) gridView.findViewById(R.id.grid_item_image);
             imageView.setImageBitmap(this.myBitmaps.get(position));
@@ -46,7 +46,7 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mobileValues.length;
+        return itemGridValues.length;
     }
 
     @Override

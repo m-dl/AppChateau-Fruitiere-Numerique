@@ -1,4 +1,4 @@
-package com.ceri.visitechateau.interestpoint;
+package com.ceri.visitechateau.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -71,7 +71,6 @@ public class SingleView extends AppCompatActivity {
         else {
             nameActionBar(IP.getNameEN());
         }
-
     }
 
     private void nameActionBar(String s) {
