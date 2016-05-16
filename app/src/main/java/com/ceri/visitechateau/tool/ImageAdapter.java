@@ -46,6 +46,8 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if(itemGridValues == null)
+            return 0;
         return itemGridValues.length;
     }
 

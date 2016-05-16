@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ceri.visitechateau.R;
-import com.ceri.visitechateau.activities.SingleView;
 import com.ceri.visitechateau.entities.chateau.InterestPoint;
 import com.ceri.visitechateau.params.AppParams;
 import com.ceri.visitechateau.tool.ImageAdapter;

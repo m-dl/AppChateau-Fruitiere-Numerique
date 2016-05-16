@@ -1,4 +1,4 @@
-package com.ceri.visitechateau.activities;
+package com.ceri.visitechateau.info;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.ceri.visitechateau.R;
-import com.ceri.visitechateau.entities.chateau.InterestPoint;
+import com.ceri.visitechateau.entities.chateau.Info;
 import com.ceri.visitechateau.params.AppParams;
 import com.ceri.visitechateau.tool.ScreenParam;
 
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  */
 public class SingleView extends AppCompatActivity {
 
-    private InterestPoint IP;
+    private Info info;
     private Intent intent;
     private int position;
     private ActionBarDrawerToggle m_DrawerToggle;
@@ -45,9 +45,15 @@ public class SingleView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(AppParams.getInstance().getCurrentVisit() == null) {
+            finish();
+            return;
+        }
+
         initObjects();
 
-        ArrayList<File> photos = IP.getPhotos();
+        ArrayList<File> photos = info.getPhotos();
         File tmpFile = photos.get(position);
         Bitmap tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
         imageView.setImageBitmap(tmpBitmap);
@@ -63,13 +69,13 @@ public class SingleView extends AppCompatActivity {
 
         intent = getIntent();
         position = intent.getExtras().getInt("id");
-        IP = (InterestPoint) intent.getSerializableExtra("InterestPoint");
+        info = (Info) intent.getSerializableExtra("Info");
 
         if (AppParams.getInstance().getM_french()) {
-            nameActionBar(IP.getName());
+            nameActionBar(AppParams.getInstance().getCurrentVisit().getName());
         }
         else {
-            nameActionBar(IP.getNameEN());
+            nameActionBar(AppParams.getInstance().getCurrentVisit().getNameEN());
         }
     }
 
