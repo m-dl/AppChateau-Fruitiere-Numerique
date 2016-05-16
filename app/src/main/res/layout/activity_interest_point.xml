@@ -66,7 +66,8 @@
                     android:layout_gravity="center_vertical|right"
                     android:id="@+id/interest_point_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/black"
                     android:textSize="16dp" />

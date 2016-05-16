@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ceri.visitechateau.R;
 import com.ceri.visitechateau.entities.chateau.InterestPoint;
@@ -44,7 +43,6 @@ public class TileViewTools {
         @Override
         public void onMarkerTap(View v, int x, int y) {
             InterestPoint IP = (InterestPoint) v.getTag(R.id.TAG_IP_ID);
-            Toast.makeText(MainActivity.getContext(), "You tapped a pin: " + IP.getName(), Toast.LENGTH_LONG).show();
             launchVisitIP(IP);
         }
     };

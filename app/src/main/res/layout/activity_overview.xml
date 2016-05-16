@@ -65,21 +65,42 @@
                     android:textColor="@color/black"
                     android:layout_gravity="center_vertical|center_horizontal" />
 
-                <ImageView
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/image_container"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/overview_picture1"/>
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/overview_picture2"/>
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="125dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/overview_title"
+                        android:id="@+id/overview_picture1"
+                        android:layout_gravity="center_horizontal" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/overview_picture3"/>
-                
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="125dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/overview_picture2"
+                        android:layout_gravity="center_horizontal" />
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="125dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/overview_title"
+                        android:id="@+id/overview_picture3"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,6 +112,37 @@
                     android:layout_marginBottom="15dp"
                     android:textColor="@color/black"
                     android:textSize="16dp" />
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/action_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cancel_visit"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/blue"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/validate_visit"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/blue"
+                    android:textColor="@color/white"
+                    android:elegantTextHeight="false" />
+            </LinearLayout>
 
             </LinearLayout>
         </ScrollView>

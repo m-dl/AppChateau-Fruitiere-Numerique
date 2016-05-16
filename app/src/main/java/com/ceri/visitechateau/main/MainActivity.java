@@ -46,6 +46,7 @@ import static com.ceri.visitechateau.tool.ConnectionManager.isNetworkAvailable;
 
 public class MainActivity extends AppCompatActivity {
 
+	private static final int LAUNCH_VISIT = 100;
 	private int updateActivityNb = 0;
 	private Resources resources;
 	private Context m_Context;
@@ -220,20 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void prepareVisit(String title) {
 		Visit visit = FM.getChateauWorkspace().searchVisit(title, AppParams.getInstance().getM_french());
-		if(launchVisitOverview(visit)) {
-			AppParams.getInstance().setCurrentVisit(visit);
-			// remove all view or it doesn't work
-			linearLayout.removeAllViewsInLayout();
-			// rebuild the new map
-			initMap(AppParams.getInstance().getCurrentFloor());
-			if (!AppParams.getInstance().getM_french())
-				renameActionBar(title + resources.getString(R.string.etage_toolbar_en) +
-						AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
-			else
-				renameActionBar(title + resources.getString(R.string.etage_toolbar) +
-						AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
-			m_FABInfo.show();
-		}
+		launchVisitOverview(visit);
 	}
 
 	private void renameActionBar(String s) {
@@ -309,11 +297,31 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	private boolean launchVisitOverview(Visit v) {
+	private void launchVisit(Intent aData) {
+		if (aData != null) {
+			boolean b = aData.getBooleanExtra("LaunchFlag", false);
+			Visit visit = (Visit) aData.getSerializableExtra("Visit");
+			if(b && visit != null) {
+				AppParams.getInstance().setCurrentVisit(visit);
+				// remove all view or it doesn't work
+				linearLayout.removeAllViewsInLayout();
+				// rebuild the new map
+				initMap(AppParams.getInstance().getCurrentFloor());
+				if (!AppParams.getInstance().getM_french())
+					renameActionBar(visit.getNameEN() + resources.getString(R.string.etage_toolbar_en) +
+							AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				else
+					renameActionBar(visit.getName() + resources.getString(R.string.etage_toolbar) +
+							AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				m_FABInfo.show();
+			}
+		}
+	}
+
+	private void launchVisitOverview(Visit v) {
 		Intent intent = new Intent(m_Activity, OverviewActivity.class);
 		intent.putExtra("Overview", v);
-		ActivityCompat.startActivity(m_Activity, intent, null);
-		return true;
+		ActivityCompat.startActivityForResult(m_Activity, intent, LAUNCH_VISIT, null);
 	}
 
 	private void launchVisitInfo() {
@@ -361,5 +369,17 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return m_DrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(
+			int requestCode, int resultCode, Intent data
+	) {
+		switch (requestCode) {
+			case LAUNCH_VISIT:
+				launchVisit(data);
+				break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

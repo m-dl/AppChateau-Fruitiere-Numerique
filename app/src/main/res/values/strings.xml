@@ -14,6 +14,10 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="annuler">Annuler</string>
+    <string name="lancer">Lancer</string>
+    <string name="cancel">Cancel</string>
+    <string name="start">Start</string>
 
     <string name="memory_access_error">Je ne peux accèder à la mémoire</string>
     <string name="etage_toolbar">\u0020- Etage :\u0020</string>
