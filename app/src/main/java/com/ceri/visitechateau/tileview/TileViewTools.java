@@ -35,7 +35,7 @@ public class TileViewTools {
     public static void addPin(TileView tv, Context c, InterestPoint IP) {
         ImageView imageView = new ImageView(c);
         imageView.setTag(R.id.TAG_IP_ID, IP);
-        imageView.setImageResource(R.drawable.maps_marker_blue);
+        imageView.setImageResource(R.drawable.marker);
         tv.addMarker(imageView, IP.getCoordX(), IP.getCoordY());
     }
 
