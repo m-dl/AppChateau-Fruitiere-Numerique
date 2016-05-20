@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ import com.ceri.visitechateau.entities.chateau.InterestPoint;
 import com.ceri.visitechateau.params.AppParams;
 import com.ceri.visitechateau.tool.ImageAdapter;
 import com.ceri.visitechateau.tool.ScreenParam;
+import com.ceri.visitechateau.tool.WrappingGridView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,16 +42,16 @@ public class InterestPointActivity extends AppCompatActivity {
     Toolbar m_Toolbar;
 
     @Bind(R.id.grid_view_photo)
-    GridView gridViewPhoto;
+    WrappingGridView gridViewPhoto;
 
     @Bind(R.id.grid_view_interieur)
-    GridView gridViewInterieur;
+    WrappingGridView gridViewInterieur;
 
     @Bind(R.id.grid_view_360)
-    GridView gridView360;
+    WrappingGridView gridView360;
 
     @Bind(R.id.grid_view_video)
-    GridView gridViewVideo;
+    WrappingGridView gridViewVideo;
 
     @Bind(R.id.interest_point_picture)
     ImageView interestPointPicture;
@@ -74,8 +74,7 @@ public class InterestPointActivity extends AppCompatActivity {
     @Bind(R.id.interest_point_video_title)
     TextView interestPointVideoTitle;
 
-    static public String[] pos;
-    private ArrayList<File> photos;
+    private String[] pos;
     private ArrayList<Bitmap> myBitmap;
     private File tmpFile;
     private Bitmap tmpBitmap;
@@ -84,19 +83,6 @@ public class InterestPointActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initObjects();
-
-        //Inflate the grid view with the photos
-        gridViewPhoto.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
-
-        gridViewPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myI = new Intent(getApplicationContext(), SingleView.class);
-                myI.putExtra("id", position);
-                myI.putExtra("InterestPoint", IP);
-                startActivity(myI);
-            }
-        });
     }
 
     private void initObjects() {
@@ -109,8 +95,6 @@ public class InterestPointActivity extends AppCompatActivity {
 
         //Getting the interest point
         IP = (InterestPoint) getIntent().getSerializableExtra("InterestPoint");
-        //Getting the arraylist of picture of this IP
-        photos = IP.getPhotos();
 
         if(IP.getPicture() != null)
             interestPointPicture.setImageBitmap(BitmapFactory.decodeFile(IP.getPicture().getAbsolutePath()));
@@ -139,29 +123,13 @@ public class InterestPointActivity extends AppCompatActivity {
             gridViewPhoto.setVisibility(View.GONE);
             interestPointPhotoTitle.setVisibility(View.GONE);
         }
-
-        if(IP.get_360().isEmpty()) {
-            gridView360.setVisibility(View.GONE);
-            interestPoint360Title.setVisibility(View.GONE);
-        }
-
-        if(IP.getInterieur().isEmpty()) {
-            gridViewInterieur.setVisibility(View.GONE);
-            interestPointInterieurTitle.setVisibility(View.GONE);
-        }
-
-        if(IP.getVideos().isEmpty()) {
-            gridViewVideo.setVisibility(View.GONE);
-            interestPointVideoTitle.setVisibility(View.GONE);
-        }
-
-        myBitmap = new ArrayList<Bitmap>();
-        // Load all the file from the arrayList then convert them into bitmap
-        if(!photos.isEmpty()){
-            pos = new String[photos.size()];
-            for(int i=0; i<photos.size(); i++){
+        else {
+            myBitmap = new ArrayList<Bitmap>();
+            // Load all the file from the arrayList then convert them into bitmap
+            pos = new String[IP.getPhotos().size()];
+            for(int i=0; i<IP.getPhotos().size(); i++){
                 pos[i]="media"+i;
-                this.tmpFile = photos.get(i);
+                this.tmpFile = IP.getPhotos().get(i);
                 if(tmpFile != null){
                     //Decode the file into a bitmap
                     tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
@@ -171,6 +139,94 @@ public class InterestPointActivity extends AppCompatActivity {
                     }
                 }
             }
+
+            //Inflate the grid view with the photos
+            gridViewPhoto.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
+
+            gridViewPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myI = new Intent(getApplicationContext(), SingleViewPhotos.class);
+                    myI.putExtra("id", position);
+                    myI.putExtra("InterestPoint", IP);
+                    startActivity(myI);
+                }
+            });
+        }
+
+        if(IP.get_360().isEmpty()) {
+            gridView360.setVisibility(View.GONE);
+            interestPoint360Title.setVisibility(View.GONE);
+        }
+        else {
+            myBitmap = new ArrayList<Bitmap>();
+            // Load all the file from the arrayList then convert them into bitmap
+            pos = new String[IP.get_360().size()];
+            for(int i=0; i<IP.get_360().size(); i++){
+                pos[i]="media"+i;
+                this.tmpFile = IP.get_360().get(i);
+                if(tmpFile != null){
+                    //Decode the file into a bitmap
+                    tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
+                    //Put the created bitmap into an array to be pass to the ImageAdapter
+                    if(tmpBitmap != null){
+                        this.myBitmap.add(tmpBitmap);
+                    }
+                }
+            }
+
+            //Inflate the grid view with the photos
+            gridView360.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
+
+            gridView360.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myI = new Intent(getApplicationContext(), SingleView360.class);
+                    myI.putExtra("id", position);
+                    myI.putExtra("InterestPoint", IP);
+                    startActivity(myI);
+                }
+            });
+        }
+
+        if(IP.getInterieur().isEmpty()) {
+            gridViewInterieur.setVisibility(View.GONE);
+            interestPointInterieurTitle.setVisibility(View.GONE);
+        }
+        else {
+            myBitmap = new ArrayList<Bitmap>();
+            // Load all the file from the arrayList then convert them into bitmap
+            pos = new String[IP.getInterieur().size()];
+            for(int i=0; i<IP.getInterieur().size(); i++){
+                pos[i]="media"+i;
+                this.tmpFile = IP.getInterieur().get(i);
+                if(tmpFile != null){
+                    //Decode the file into a bitmap
+                    tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
+                    //Put the created bitmap into an array to be pass to the ImageAdapter
+                    if(tmpBitmap != null){
+                        this.myBitmap.add(tmpBitmap);
+                    }
+                }
+            }
+
+            //Inflate the grid view with the photos
+            gridViewInterieur.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
+
+            gridViewInterieur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myI = new Intent(getApplicationContext(), SingleViewInterieur.class);
+                    myI.putExtra("id", position);
+                    myI.putExtra("InterestPoint", IP);
+                    startActivity(myI);
+                }
+            });
+        }
+
+        if(IP.getVideos().isEmpty()) {
+            gridViewVideo.setVisibility(View.GONE);
+            interestPointVideoTitle.setVisibility(View.GONE);
         }
     }
 

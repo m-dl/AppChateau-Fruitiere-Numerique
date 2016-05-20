@@ -42,7 +42,13 @@
             android:name=".overview.OverviewActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".interestpoint.SingleView"
+            android:name=".interestpoint.SingleViewPhotos"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".interestpoint.SingleViewInterieur"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".interestpoint.SingleView360"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".info.SingleView"

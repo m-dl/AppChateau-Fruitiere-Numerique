@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ import com.ceri.visitechateau.entities.chateau.Info;
 import com.ceri.visitechateau.params.AppParams;
 import com.ceri.visitechateau.tool.ImageAdapter;
 import com.ceri.visitechateau.tool.ScreenParam;
+import com.ceri.visitechateau.tool.WrappingGridView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class InfoActivity extends AppCompatActivity {
     Toolbar m_Toolbar;
 
     @Bind(R.id.grid_view_photo)
-    GridView gridViewPhoto;
+    WrappingGridView gridViewPhoto;
 
     @Bind(R.id.info_picture)
     ImageView infoPicture;
@@ -56,8 +56,7 @@ public class InfoActivity extends AppCompatActivity {
     @Bind(R.id.info_photo_title)
     TextView infoPhotoTitle;
     
-    static public String[] pos;
-    private ArrayList<File> photos;
+    private String[] pos;
     private ArrayList<Bitmap> myBitmap;
     private File tmpFile;
     private Bitmap tmpBitmap;
@@ -72,19 +71,6 @@ public class InfoActivity extends AppCompatActivity {
         }
 
         initObjects();
-
-        //Inflate the grid view with the photos
-        gridViewPhoto.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
-
-        gridViewPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myI = new Intent(getApplicationContext(), SingleView.class);
-                myI.putExtra("id", position);
-                myI.putExtra("Info", info);
-                startActivity(myI);
-            }
-        });
     }
 
     private void initObjects() {
@@ -97,10 +83,8 @@ public class InfoActivity extends AppCompatActivity {
 
         //Getting the visit info
         info = AppParams.getInstance().getCurrentVisit().getInfo();
-        //Getting the arraylist of picture of this info
-        photos = info.getPhotos();
 
-        if(info.getPicture() != null)
+        if (info.getPicture() != null)
             infoPicture.setImageBitmap(BitmapFactory.decodeFile(info.getPicture().getAbsolutePath()));
 
         if (AppParams.getInstance().getM_french()) {
@@ -108,8 +92,7 @@ public class InfoActivity extends AppCompatActivity {
             infoContent.setText(info.readContent_FR());
             infoPhotoTitle.setText(R.string.images);
             nameActionBar(AppParams.getInstance().getCurrentVisit().getName());
-        }
-        else {
+        } else {
             infoTitle.setText(AppParams.getInstance().getCurrentVisit().getNameEN());
             infoContent.setText(info.readContent_EN());
             infoPhotoTitle.setText(R.string.pictures);
@@ -117,27 +100,38 @@ public class InfoActivity extends AppCompatActivity {
         }
 
         // if some media elements are empty, do not dislay titles and gridviews
-        if(info.getPhotos().isEmpty()) {
+        if (info.getPhotos().isEmpty()) {
             gridViewPhoto.setVisibility(View.GONE);
             infoPhotoTitle.setVisibility(View.GONE);
-        }
-
-        myBitmap = new ArrayList<Bitmap>();
-        // Load all the file from the arrayList then convert them into bitmap
-        if(!photos.isEmpty()){
-            pos = new String[photos.size()];
-            for(int i=0; i<photos.size(); i++){
-                pos[i]="media"+i;
-                this.tmpFile = photos.get(i);
-                if(tmpFile != null){
+        } else {
+            myBitmap = new ArrayList<Bitmap>();
+            // Load all the file from the arrayList then convert them into bitmap
+            pos = new String[info.getPhotos().size()];
+            for (int i = 0; i < info.getPhotos().size(); i++) {
+                pos[i] = "media" + i;
+                this.tmpFile = info.getPhotos().get(i);
+                if (tmpFile != null) {
                     //Decode the file into a bitmap
                     tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
                     //Put the created bitmap into an array to be pass to the ImageAdapter
-                    if(tmpBitmap != null){
+                    if (tmpBitmap != null) {
                         this.myBitmap.add(tmpBitmap);
                     }
                 }
             }
+
+            //Inflate the grid view with the photos
+            gridViewPhoto.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
+
+            gridViewPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myI = new Intent(getApplicationContext(), SingleView.class);
+                    myI.putExtra("id", position);
+                    myI.putExtra("Info", info);
+                    startActivity(myI);
+                }
+            });
         }
     }
 

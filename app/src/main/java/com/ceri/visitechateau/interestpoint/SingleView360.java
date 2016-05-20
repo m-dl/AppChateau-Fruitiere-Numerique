@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Clément
  */
-public class SingleView extends AppCompatActivity {
+public class SingleView360 extends AppCompatActivity {
 
     private InterestPoint IP;
     private Intent intent;
@@ -47,7 +47,7 @@ public class SingleView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initObjects();
 
-        ArrayList<File> photos = IP.getPhotos();
+        ArrayList<File> photos = IP.get_360();
         File tmpFile = photos.get(position);
         Bitmap tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
         imageView.setImageBitmap(tmpBitmap);

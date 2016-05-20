@@ -76,11 +76,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/interest_point_photo_title"
                     android:textStyle="bold" />
 
-                <GridView
+                <com.ceri.visitechateau.tool.WrappingGridView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/grid_view_photo"
@@ -94,11 +96,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/interest_point_interieur_title"
                     android:textStyle="bold" />
 
-                <GridView
+                <com.ceri.visitechateau.tool.WrappingGridView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/grid_view_interieur"
@@ -112,11 +116,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/interest_point_360_title"
                     android:textStyle="bold" />
 
-                <GridView
+                <com.ceri.visitechateau.tool.WrappingGridView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/grid_view_360"
@@ -130,11 +136,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/interest_point_video_title"
                     android:textStyle="bold" />
 
-                <GridView
+                <com.ceri.visitechateau.tool.WrappingGridView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/grid_view_video"
