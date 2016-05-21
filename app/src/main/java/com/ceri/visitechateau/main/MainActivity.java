@@ -339,8 +339,8 @@ public class MainActivity extends AppCompatActivity {
 	public void onResume() {
 		super.onResume();
 		tileView.resume();
-		// reload menu if update medias - it's activity nb < 3
-		if(updateActivityNb < 3) {
+		// reload menu if update medias - it's activity nb < 4
+		if(updateActivityNb < 4) {
 			m_NavigationView.getMenu().clear();
 			FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
 			FM.Init();

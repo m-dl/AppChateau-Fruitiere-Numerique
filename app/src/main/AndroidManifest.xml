@@ -51,6 +51,9 @@
             android:name=".interestpoint.SingleView360"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".interestpoint.PlayerActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".info.SingleView"
             android:screenOrientation="sensorLandscape" />
     </application>

@@ -3,7 +3,9 @@ package com.ceri.visitechateau.interestpoint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -227,6 +229,36 @@ public class InterestPointActivity extends AppCompatActivity {
         if(IP.getVideos().isEmpty()) {
             gridViewVideo.setVisibility(View.GONE);
             interestPointVideoTitle.setVisibility(View.GONE);
+        }
+        else {
+            myBitmap = new ArrayList<Bitmap>();
+            // Load all the file from the arrayList then convert them into bitmap
+            pos = new String[IP.getVideos().size()];
+            for(int i=0; i<IP.getVideos().size(); i++){
+                pos[i]="media"+i;
+                this.tmpFile = IP.getVideos().get(i);
+                if(tmpFile != null){
+                    //Decode the file into a bitmap
+                    tmpBitmap = ThumbnailUtils.createVideoThumbnail(tmpFile.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
+                    //Put the created bitmap into an array to be pass to the ImageAdapter
+                    if(tmpBitmap != null){
+                        this.myBitmap.add(tmpBitmap);
+                    }
+                }
+            }
+
+            //Inflate the grid view with the photos
+            gridViewVideo.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
+
+            gridViewVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myI = new Intent(getApplicationContext(), PlayerActivity.class);
+                    myI.putExtra("id", position);
+                    myI.putExtra("InterestPoint", IP);
+                    startActivity(myI);
+                }
+            });
         }
     }
 
