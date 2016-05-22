@@ -1,6 +1,7 @@
 package com.ceri.visitechateau.interestpoint;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.MediaController;
 
 import com.ceri.visitechateau.R;
@@ -43,7 +45,6 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
     SurfaceHolder holder;
     MediaPlayer mdP;
     File tmpFile;
-    private int currentP;
     private MediaController mcontrol;
     private Handler handler;
     private InterestPoint IP;
@@ -53,7 +54,6 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         super.onCreate(savedInstanceState);
         initObjects();
 
-        currentP = 0;
         handler = new Handler();
         Intent i = getIntent();
         int position = i.getExtras().getInt("id");
@@ -85,6 +85,47 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         if (actionBar != null)
             actionBar.setTitle(s);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void computeSize() {
+        int mVideoWidth = this.mdP.getVideoWidth();
+        int mVideoHeight = this.mdP.getVideoHeight();
+        if (mVideoWidth * mVideoHeight <= 1)
+            return;
+
+        if(holder == null || pre == null)
+            return;
+
+        // get screen size
+        int w = getWindow().getDecorView().getWidth();
+        int h = getWindow().getDecorView().getHeight();
+
+        // getWindow().getDecorView() doesn't always take orientation into
+        // account, we have to correct the values
+        boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        if (w > h && isPortrait || w < h && !isPortrait) {
+            int i = w;
+            w = h;
+            h = i;
+        }
+
+        float videoAR = (float) mVideoWidth / (float) mVideoHeight;
+        float screenAR = (float) w / (float) h;
+
+        if (screenAR < videoAR)
+            h = (int) (w / videoAR);
+        else
+            w = (int) (h * videoAR);
+
+        // force surface buffer size
+        holder.setFixedSize(mVideoWidth, mVideoHeight);
+
+        // set display size
+        ViewGroup.LayoutParams lp = pre.getLayoutParams();
+        lp.width = w;
+        lp.height = h;
+        pre.setLayoutParams(lp);
+        pre.invalidate();
     }
 
     @Override
@@ -131,6 +172,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
             }
         });
 
+        computeSize();
         start();
     }
 
@@ -160,17 +202,13 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
     @Override
     protected void onResume() {
         super.onResume();
+        start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(this.mdP != null) {
-            this.currentP = this.mdP.getCurrentPosition();
-        }
-        else {
-            this.currentP = 0;
-        }
+        pause();
     }
 
     @Override
@@ -182,7 +220,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
     @Override
     protected void onStop() {
         super.onStop();
-        this.mdP.stop();
+        pause();
     }
 
     @Override
@@ -226,7 +264,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
 
     @Override
     public int getCurrentPosition() {
-        if(this.mdP != null) {
+        if(this.mdP.isPlaying()) {
             return this.mdP.getCurrentPosition();
         }
         return 0;
