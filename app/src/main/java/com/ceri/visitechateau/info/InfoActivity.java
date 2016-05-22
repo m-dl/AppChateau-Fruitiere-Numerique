@@ -73,6 +73,7 @@ public class InfoActivity extends AppCompatActivity {
         initObjects();
     }
 
+    // initiate the objects and design
     private void initObjects() {
         setContentView(R.layout.activity_info);
         ButterKnife.bind(this);
@@ -87,6 +88,7 @@ public class InfoActivity extends AppCompatActivity {
         if (info.getPicture() != null)
             infoPicture.setImageBitmap(BitmapFactory.decodeFile(info.getPicture().getAbsolutePath()));
 
+        // set en or fr text
         if (AppParams.getInstance().getM_french()) {
             infoTitle.setText(AppParams.getInstance().getCurrentVisit().getName());
             infoContent.setText(info.readContent_FR());
@@ -123,6 +125,7 @@ public class InfoActivity extends AppCompatActivity {
             //Inflate the grid view with the photos
             gridViewPhoto.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
 
+            // set click listener to open full image
             gridViewPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -135,6 +138,7 @@ public class InfoActivity extends AppCompatActivity {
         }
     }
 
+    // set action bar text
     private void nameActionBar(String s) {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)

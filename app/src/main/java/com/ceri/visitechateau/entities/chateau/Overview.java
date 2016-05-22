@@ -31,7 +31,8 @@ public class Overview implements Serializable {
 		
 		this.imagesContent = FileTools.ListFolderPictures(pathFrom);
 	}
-	
+
+	// check and create files if not exist
 	private void initOverview(String pathFrom) {
 		if(!FileTools.Exist(this.presentation_FR))
 			FileTools.CreateFile(pathFrom + "/" + FileManager.PRESENTATION_FR);
@@ -42,19 +43,23 @@ public class Overview implements Serializable {
 		if(!FileTools.Exist(this.length_EN))
 			FileTools.CreateFile(pathFrom + "/" + FileManager.LENGTH_EN);
 	}
-	
+
+	// read presentation fr
 	public String readPresentation_FR() {
 		return FileTools.Read(this.presentation_FR);
 	}
-	
+
+	// read presentation en
 	public String readPresentation_EN() {
 		return FileTools.Read(this.presentation_EN);
 	}
-	
+
+	// read length fr
 	public String readLength_FR() {
 		return FileTools.Read(this.length_FR);
 	}
-	
+
+	// read length en
 	public String readLength_EN() {
 		return FileTools.Read(this.length_EN);
 	}

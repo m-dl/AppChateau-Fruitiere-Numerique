@@ -15,6 +15,8 @@ import java.util.Locale;
 
 public class TakePicture {
 
+    // --- take pictures feature ---
+
     private Context m_Context;
     private Activity m_Activity;
     final public static String PHOTO_FOLDER = "/VisiteChateau";
@@ -25,6 +27,7 @@ public class TakePicture {
         m_Context = m_Activity.getApplicationContext();
     }
 
+    // manage the feature
     public void photo() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(m_Context.getPackageManager()) != null) {
@@ -34,6 +37,7 @@ public class TakePicture {
             } catch (IOException ex) {
                 //todo
             }
+            // start activity
             if (photoFile != null) {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
@@ -42,6 +46,7 @@ public class TakePicture {
         }
     }
 
+    // create the photo file
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";

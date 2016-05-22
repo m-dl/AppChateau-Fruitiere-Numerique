@@ -32,18 +32,21 @@ public class Info implements Serializable {
 			this.picture = tmpPicture.get(0);
 		this.photos = FileTools.ListFolderPictures(pathFrom + "/" + FileManager.PHOTOS);
 	}
-	
+
+	// check and create files if not exist
 	private void initInfo(String pathFrom) {
 		if(!FileTools.Exist(this.content_FR))
 			FileTools.CreateFile(pathFrom + "/" + FileManager.PRESENTATION_FR);
 		if(!FileTools.Exist(this.content_EN))
 			FileTools.CreateFile(pathFrom + "/" + FileManager.PRESENTATION_EN);
 	}
-	
+
+	// read content fr
 	public String readContent_FR() {
 		return FileTools.Read(this.content_FR);
 	}
-	
+
+	// read content en
 	public String readContent_EN() {
 		return FileTools.Read(this.content_EN);
 	}

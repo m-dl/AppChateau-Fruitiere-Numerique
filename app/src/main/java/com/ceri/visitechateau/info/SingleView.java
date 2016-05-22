@@ -59,6 +59,7 @@ public class SingleView extends AppCompatActivity {
         imageView.setImageBitmap(tmpBitmap);
     }
 
+    // initiate the objects and design
     private void initObjects() {
         setContentView(R.layout.activity_single_view);
         ButterKnife.bind(this);
@@ -71,6 +72,7 @@ public class SingleView extends AppCompatActivity {
         position = intent.getExtras().getInt("id");
         info = (Info) intent.getSerializableExtra("Info");
 
+        // set en or fr text
         if (AppParams.getInstance().getM_french()) {
             nameActionBar(AppParams.getInstance().getCurrentVisit().getName());
         }
@@ -79,6 +81,7 @@ public class SingleView extends AppCompatActivity {
         }
     }
 
+    // set action bar text
     private void nameActionBar(String s) {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)

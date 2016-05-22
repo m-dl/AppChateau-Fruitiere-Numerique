@@ -11,6 +11,8 @@ import android.view.WindowManager;
 
 public class ScreenParam {
 
+    // --- set screen properties for design purposes ---
+
     public void paramWindow(Window window) {
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         window.setExitTransition(new Explode());

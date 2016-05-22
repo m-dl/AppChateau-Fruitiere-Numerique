@@ -53,6 +53,7 @@ public class SingleView360 extends AppCompatActivity {
         imageView.setImageBitmap(tmpBitmap);
     }
 
+    // initiate the objects and design
     private void initObjects() {
         setContentView(R.layout.activity_single_view);
         ButterKnife.bind(this);
@@ -65,6 +66,7 @@ public class SingleView360 extends AppCompatActivity {
         position = intent.getExtras().getInt("id");
         IP = (InterestPoint) intent.getSerializableExtra("InterestPoint");
 
+        // set en or fr text
         if (AppParams.getInstance().getM_french()) {
             nameActionBar(IP.getName());
         }
@@ -73,6 +75,7 @@ public class SingleView360 extends AppCompatActivity {
         }
     }
 
+    // set action bar text
     private void nameActionBar(String s) {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)

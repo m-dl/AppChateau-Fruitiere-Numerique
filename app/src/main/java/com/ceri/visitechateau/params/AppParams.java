@@ -9,14 +9,18 @@ import com.ceri.visitechateau.entities.chateau.Visit;
 public class AppParams {
     public static AppParams instance;
 
+    // singleton
     public static AppParams getInstance() {
         if (instance == null)
             instance = new AppParams();
         return instance;
     }
 
+    // language
     private boolean m_french;
+    // current floor we are on
     private int currentFloor;
+    // current visit we are on
     private Visit currentVisit;
 
     private AppParams() {

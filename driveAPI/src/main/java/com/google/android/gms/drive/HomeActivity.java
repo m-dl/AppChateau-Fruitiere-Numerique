@@ -81,6 +81,7 @@ public class HomeActivity extends BaseActivity {
                         mTextView.setText(mTextView.getText() + "\n" + "Erreur lors de la récupération du résultat.");
                         return;
                     }
+                    // get the file searched or cancel if not found
                     if(result.getMetadataBuffer().getCount() != 0) {
                         bytesExpected = (int) result.getMetadataBuffer().get(0).getFileSize();
                         mFileId = result.getMetadataBuffer().get(0).getDriveId();

@@ -71,6 +71,7 @@ public class OverviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initObjects();
 
+        // if users clicks it, he cancels the visit launch
         cancelVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +79,7 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
 
+        // if users clicks it, he starts the visit launch
         validateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +88,7 @@ public class OverviewActivity extends AppCompatActivity {
         });
     }
 
+    // initiate the objects and design
     private void initObjects() {
         setContentView(R.layout.activity_overview);
         ButterKnife.bind(this);
@@ -113,6 +116,7 @@ public class OverviewActivity extends AppCompatActivity {
         else
             overviewPicture3.setVisibility(View.GONE);
 
+        // set en or fr text
         if (AppParams.getInstance().getM_french()) {
             overviewTitle.setText(visit.getName());
             overviewLength.setText(overview.readLength_FR());
@@ -131,6 +135,7 @@ public class OverviewActivity extends AppCompatActivity {
         }
     }
 
+    // set action bar text
     private void nameActionBar(String s) {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -141,13 +146,16 @@ public class OverviewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
+            // if users return, he cancels the visit launch
             return finishActivity(false);
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
+    // finish and close the activity and return bool response
     private boolean finishActivity(boolean b) {
         Intent _result = new Intent();
+        // return if we cancel or launch the visit
         _result.putExtra("LaunchFlag", b);
         _result.putExtra("Visit", visit);
         setResult(Activity.RESULT_OK, _result);

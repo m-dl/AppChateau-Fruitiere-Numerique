@@ -46,6 +46,7 @@ import static com.ceri.visitechateau.tool.ConnectionManager.isNetworkAvailable;
 
 public class MainActivity extends AppCompatActivity {
 
+	// intent result code
 	private static final int LAUNCH_VISIT = 100;
 	private int updateActivityNb = 0;
 	private Resources resources;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 		FileManager.ListVisits(m_NavigationView, AppParams.getInstance().getM_french());
 	}
 
+	// initiate the objects and design
 	private void initObjects() {
 		setContentView(R.layout.main);
 		ButterKnife.bind(this);
@@ -121,10 +123,13 @@ public class MainActivity extends AppCompatActivity {
 		setDrawer();
 		presentTheDrawer();
 		initMap(Location.FLOOR_ONE);
+		// hide info visit button, no visit launched by default
 		m_FABInfo.hide();
 	}
 
+	// initiate the map design for the current floor and add the pins
 	private void initMap(int f) {
+		// change these path to change map plans
 		String floorPath = "maps/floor_" + f + "/%col%_%row%.jpg";
 		String floorPath2 = "maps/floor_" + f + "/planchateau.jpg";
 		linearLayout = (LinearLayout) findViewById(R.id.map);
@@ -150,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
 		initPins(f);
 	}
 
+	// add pins from IP on the map
 	private void initPins(int f) {
+		// if a visit is running, list the IP on the map for the current floor
 		if(AppParams.getInstance().getCurrentVisit() != null) {
 			ArrayList<InterestPoint> IPArray = new ArrayList<InterestPoint>();
 			if(f == Location.FLOOR_ONE)
@@ -162,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 			for(InterestPoint IP : IPArray) {
 				TileViewTools.addPin(tileView, getContext(), IP);
 			}
+			// set en or fr text
 			if(AppParams.getInstance().getM_french())
 				renameActionBar(AppParams.getInstance().getCurrentVisit().getName() +
 						resources.getString(R.string.etage_toolbar) +
@@ -174,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
 						resources.getString(R.string.total_etage));
 		}
 		else {
+			// set en or fr text
 			if (AppParams.getInstance().getM_french())
 				renameActionBar(resources.getString(R.string.app_name) +
 						resources.getString(R.string.etage_toolbar) +
@@ -187,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	// set en or fr language for the app and set some texts
 	private void selectLanguage() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		alertDialogBuilder.setTitle(R.string.set_english_app_title);
@@ -215,21 +225,25 @@ public class MainActivity extends AppCompatActivity {
 		alertDialog.show();
 	}
 
+	// open the menu
 	private void presentTheDrawer() {
 		m_DrawerLayout.openDrawer(GravityCompat.START);
 	}
 
+	// launch visit overview activity
 	private void prepareVisit(String title) {
 		Visit visit = FM.getChateauWorkspace().searchVisit(title, AppParams.getInstance().getM_french());
 		launchVisitOverview(visit);
 	}
 
+	// set action bar text
 	private void renameActionBar(String s) {
 		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null)
 			actionBar.setTitle(s);
 	}
 
+	// initiate the drawer design for the menu
 	public void setDrawer() {
 		m_DrawerLayout.setDrawerListener(m_DrawerToggle);
 		m_DrawerLayout.isDrawerOpen(m_NavigationView);
@@ -253,13 +267,17 @@ public class MainActivity extends AppCompatActivity {
 				});
 	}
 
+	// get item clicked in the menu
 	public void navigationDrawerItemSelected(int position, String title) {
 		if (position > 0) {
+			// a visit is clicked
 			if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+				// set the visit and initiate it with overview
 				prepareVisit(title);
 			} else
 				Toast.makeText(m_Context, resources.getString(R.string.memory_access_error), Toast.LENGTH_LONG).show();
 		} else {
+			// take picture item
 			if (title.equals(resources.getString(R.string.action_section_1)) || title.equals(resources.getString(R.string.action_section_english_1))) {
 				TakePicture takePicture = new TakePicture(m_Activity);
 				takePicture.photo();
@@ -267,12 +285,14 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	// button visit info
 	@OnClick(R.id.info)
 	public void onInfoClick() {
 		// launch visit info activity
 		launchVisitInfo();
 	}
 
+	// button to go up a floor
 	@OnClick(R.id.map_floors_up)
 	public void onFloorUpClick() {
 		if(AppParams.getInstance().getCurrentFloor() < Location.FLOOR_THREE) {
@@ -285,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	// button to go down a floor
 	@OnClick(R.id.map_floors_down)
 	public void onFloorDownClick() {
 		if(AppParams.getInstance().getCurrentFloor() > Location.FLOOR_ONE) {
@@ -297,8 +318,10 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	// if overview confirms, we launch the visit, or we do nothing
 	private void launchVisit(Intent aData) {
 		if (aData != null) {
+			// get the bool response
 			boolean b = aData.getBooleanExtra("LaunchFlag", false);
 			Visit visit = (Visit) aData.getSerializableExtra("Visit");
 			if(b && visit != null) {
@@ -313,17 +336,20 @@ public class MainActivity extends AppCompatActivity {
 				else
 					renameActionBar(visit.getName() + resources.getString(R.string.etage_toolbar) +
 							AppParams.getInstance().getCurrentFloor() + resources.getString(R.string.total_etage));
+				// show info visit button
 				m_FABInfo.show();
 			}
 		}
 	}
 
+	// launch overview activity
 	private void launchVisitOverview(Visit v) {
 		Intent intent = new Intent(m_Activity, OverviewActivity.class);
 		intent.putExtra("Overview", v);
 		ActivityCompat.startActivityForResult(m_Activity, intent, LAUNCH_VISIT, null);
 	}
 
+	// launch info activity
 	private void launchVisitInfo() {
 		Intent intent = new Intent(m_Activity, InfoActivity.class);
 		ActivityCompat.startActivity(m_Activity, intent, null);
@@ -371,11 +397,13 @@ public class MainActivity extends AppCompatActivity {
 		return m_DrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 	}
 
+	// activity result manager
 	@Override
 	protected void onActivityResult(
 			int requestCode, int resultCode, Intent data
 	) {
 		switch (requestCode) {
+			// case overview visit returns result to start or cancel the visit
 			case LAUNCH_VISIT:
 				launchVisit(data);
 				break;

@@ -45,7 +45,8 @@ public class InterestPoint implements Serializable {
 		this.floor = 0;
 		readMarker();
 	}
-	
+
+	// check and create files if not exist
 	private void initInterestPoint(String pathFrom) {
 		if(!FileTools.Exist(this.presentation_FR))
 			FileTools.CreateFile(pathFrom + "/" + FileManager.PRESENTATION_FR);
@@ -56,19 +57,23 @@ public class InterestPoint implements Serializable {
 		if(!FileTools.Exist(this.marker))
 			FileTools.CreateFile(pathFrom + "/" + FileManager.MARKER);
 	}
-	
+
+	// read presentation fr
 	public String readPresentation_FR() {
 		return FileTools.Read(this.presentation_FR);
 	}
 
+	// read presentation en
 	public String readPresentation_EN() {
 		return FileTools.Read(this.presentation_EN);
 	}
 
+	// read name en
 	public String readName_EN() {
 		return FileTools.Read(this.name_EN);
 	}
-	
+
+	// read marker
 	public void readMarker() {
 		FileTools.ParseCoordinates(this);
 	}

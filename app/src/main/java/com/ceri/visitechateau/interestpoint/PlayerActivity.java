@@ -63,6 +63,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         this.tmpFile = IP.getVideos().get(position);
     }
 
+    // initiate the objects and design
     private void initObjects() {
         setContentView(R.layout.activity_player);
         ButterKnife.bind(this);
@@ -72,6 +73,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         m_DrawerToggle = new ActionBarDrawerToggle(this, m_DrawerLayout, 0, 0);
         IP = (InterestPoint) getIntent().getSerializableExtra("InterestPoint");
 
+        // set en or fr text
         if (AppParams.getInstance().getM_french()) {
             nameActionBar(IP.getName());
         }
@@ -80,6 +82,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         }
     }
 
+    // set action bar text
     private void nameActionBar(String s) {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -87,6 +90,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    // compute the video size to make it fit to the screen or it's stretched
     private void computeSize() {
         int mVideoWidth = this.mdP.getVideoWidth();
         int mVideoHeight = this.mdP.getVideoHeight();
@@ -137,6 +141,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         return super.onOptionsItemSelected(menuItem);
     }
 
+    // create the player
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         String path = tmpFile.getAbsolutePath();
@@ -158,6 +163,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
             e.printStackTrace();
         }
 
+        // when ready and touch listeners
         this.mdP.setOnPreparedListener(this);
         pre.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -165,6 +171,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
+                    // show the controls when user touches the screen
                     mcontrol.show();
                     return true;
                 }
@@ -239,7 +246,7 @@ public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.C
         return super.onTouchEvent(event);
     }
 
-    // Media player control
+    // --- Media player controls ---
     @Override
     public void start() {
         if(this.mdP != null) {

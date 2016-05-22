@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Visit implements Serializable {
 
+    // one array of IP by floor
     private ArrayList<InterestPoint> IP1, IP2, IP3;
     private Overview overview;
     private Info info;
@@ -34,6 +35,7 @@ public class Visit implements Serializable {
         this.nameEN = readName_EN();
     }
 
+    // check and create files if not exist
     private void initVisit(String pathFrom) {
         if (!FileTools.Exist(new File(pathFrom + "/" + FileManager.OVERVIEW_FOLDER)))
             FileTools.CreateDirectory(pathFrom + "/" + FileManager.OVERVIEW_FOLDER);

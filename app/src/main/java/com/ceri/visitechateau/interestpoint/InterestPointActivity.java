@@ -87,6 +87,7 @@ public class InterestPointActivity extends AppCompatActivity {
         initObjects();
     }
 
+    // initiate the objects and design
     private void initObjects() {
         setContentView(R.layout.activity_interest_point);
         ButterKnife.bind(this);
@@ -101,6 +102,7 @@ public class InterestPointActivity extends AppCompatActivity {
         if(IP.getPicture() != null)
             interestPointPicture.setImageBitmap(BitmapFactory.decodeFile(IP.getPicture().getAbsolutePath()));
 
+        // set en or fr text
         if (AppParams.getInstance().getM_french()) {
             interestPointTitle.setText(IP.getName());
             interestPointContent.setText(IP.readPresentation_FR());
@@ -145,6 +147,7 @@ public class InterestPointActivity extends AppCompatActivity {
             //Inflate the grid view with the photos
             gridViewPhoto.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
 
+            // set click listener to open full image
             gridViewPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -180,6 +183,7 @@ public class InterestPointActivity extends AppCompatActivity {
             //Inflate the grid view with the photos
             gridView360.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
 
+            // set click listener to open full image
             gridView360.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -215,6 +219,7 @@ public class InterestPointActivity extends AppCompatActivity {
             //Inflate the grid view with the photos
             gridViewInterieur.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
 
+            // set click listener to open full image
             gridViewInterieur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -250,6 +255,7 @@ public class InterestPointActivity extends AppCompatActivity {
             //Inflate the grid view with the photos
             gridViewVideo.setAdapter(new ImageAdapter(this, pos, myBitmap)); //Pass the Bitmap array
 
+            // set click listener to open full video
             gridViewVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -262,6 +268,7 @@ public class InterestPointActivity extends AppCompatActivity {
         }
     }
 
+    // set action bar text
     private void nameActionBar(String s) {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)

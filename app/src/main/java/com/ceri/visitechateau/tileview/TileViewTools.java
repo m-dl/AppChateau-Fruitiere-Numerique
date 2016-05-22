@@ -18,9 +18,10 @@ import com.qozix.tileview.markers.MarkerEventListener;
  */
 public class TileViewTools {
     /**
-     * This is a convenience method to moveToAndCenter after layout (which won't happen if called directly in onCreate
-     * see https://github.com/moagrius/TileView/wiki/FAQ
+     * https://github.com/moagrius/TileView/wiki/FAQ
      */
+
+    // center the screen map in the middle
     public static void frameTo(final TileView tv, final double x, final double y) {
         if(tv != null) {
             tv.post(new Runnable() {
@@ -32,21 +33,26 @@ public class TileViewTools {
         }
     }
 
+    // add an IP marker on the map
     public static void addPin(TileView tv, Context c, InterestPoint IP) {
         ImageView imageView = new ImageView(c);
         imageView.setTag(R.id.TAG_IP_ID, IP);
+        // change this picture to change the marker picture - very small and neat picture needed
         imageView.setImageResource(R.drawable.marker);
         tv.addMarker(imageView, IP.getCoordX(), IP.getCoordY());
     }
 
+    // clic listener on the marker
     public static MarkerEventListener markerEventListener = new MarkerEventListener() {
         @Override
         public void onMarkerTap(View v, int x, int y) {
             InterestPoint IP = (InterestPoint) v.getTag(R.id.TAG_IP_ID);
+            // when clicked, launch IP visit activity
             launchVisitIP(IP);
         }
     };
 
+    // start the IP activity to show text, pictures...
     public static void launchVisitIP(InterestPoint IP) {
         Intent intent = new Intent(MainActivity.m_Activity, InterestPointActivity.class);
         intent.putExtra("InterestPoint", IP);

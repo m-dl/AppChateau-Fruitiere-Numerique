@@ -21,12 +21,14 @@ public class ImageAdapter extends BaseAdapter {
     private final String[] itemGridValues;
     private ArrayList<Bitmap> myBitmaps;
 
+    // image adapter for gridview
     public ImageAdapter(Context context, String[] itemGridValues, ArrayList<Bitmap> x) {
         this.context = context;
         this.itemGridValues = itemGridValues;
         this.myBitmaps = x;
     }
 
+    // create item view for gridview
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View gridView;
