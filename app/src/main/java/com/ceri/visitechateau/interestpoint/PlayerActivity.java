@@ -1,46 +1,99 @@
 package com.ceri.visitechateau.interestpoint;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.MediaController;
 
 import com.ceri.visitechateau.R;
 import com.ceri.visitechateau.entities.chateau.InterestPoint;
+import com.ceri.visitechateau.params.AppParams;
+import com.ceri.visitechateau.tool.ScreenParam;
 
 import java.io.File;
 import java.io.IOException;
 
-public class PlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, MediaController.MediaPlayerControl {
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
+public class PlayerActivity extends AppCompatActivity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, MediaController.MediaPlayerControl {
+
+    private ActionBarDrawerToggle m_DrawerToggle;
+    private ScreenParam param;
+
+    @Bind(R.id.drawer_layout)
+    DrawerLayout m_DrawerLayout;
+
+    @Bind(R.id.toolbar)
+    Toolbar m_Toolbar;
+
+    @Bind(R.id.surfaceViewVideo)
     SurfaceView pre;
+
     SurfaceHolder holder;
     MediaPlayer mdP;
     File tmpFile;
     private int currentP;
     private MediaController mcontrol;
     private Handler handler;
+    private InterestPoint IP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
+        initObjects();
 
         currentP = 0;
         handler = new Handler();
         Intent i = getIntent();
         int position = i.getExtras().getInt("id");
-        final InterestPoint IP = (InterestPoint) getIntent().getSerializableExtra("InterestPoint");
-        pre = (SurfaceView) findViewById(R.id.surfaceViewVideo);
         holder = pre.getHolder();
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         holder.addCallback(this);
         this.tmpFile = IP.getVideos().get(position);
+    }
+
+    private void initObjects() {
+        setContentView(R.layout.activity_player);
+        ButterKnife.bind(this);
+        param = new ScreenParam();
+        param.paramWindowFullScreen(getWindow());
+        param.paramSetSupportActionBar(m_Toolbar, this);
+        m_DrawerToggle = new ActionBarDrawerToggle(this, m_DrawerLayout, 0, 0);
+        IP = (InterestPoint) getIntent().getSerializableExtra("InterestPoint");
+
+        if (AppParams.getInstance().getM_french()) {
+            nameActionBar(IP.getName());
+        }
+        else {
+            nameActionBar(IP.getNameEN());
+        }
+    }
+
+    private void nameActionBar(String s) {
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setTitle(s);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
@@ -65,6 +118,20 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
         }
 
         this.mdP.setOnPreparedListener(this);
+        pre.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                int action = event.getAction();
+
+                if (action == MotionEvent.ACTION_DOWN) {
+                    mcontrol.show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        start();
     }
 
     @Override
@@ -73,7 +140,7 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        this.mdP.stop(); //Need verif @ next iteration
+        this.mdP.stop();
     }
 
     @Override
@@ -98,24 +165,34 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
     @Override
     protected void onPause() {
         super.onPause();
-        this.currentP = this.mdP.getCurrentPosition();
+        if(this.mdP != null) {
+            this.currentP = this.mdP.getCurrentPosition();
+        }
+        else {
+            this.currentP = 0;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.mdP.stop();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        this.mdP.stop();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("CurrentPosition",this.currentP);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        this.currentP = savedInstanceState.getInt("CurrentPosition");
     }
 
     @Override
@@ -127,32 +204,47 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
     // Media player control
     @Override
     public void start() {
-        this.mdP.start();
+        if(this.mdP != null) {
+            this.mdP.start();
+        }
     }
 
     @Override
     public void pause() {
-        this.mdP.pause();
+        if(this.mdP != null) {
+            this.mdP.pause();
+        }
     }
 
     @Override
     public int getDuration() {
-        return this.mdP.getDuration();
+        if(this.mdP != null) {
+            return this.mdP.getDuration();
+        }
+        return 0;
     }
 
     @Override
     public int getCurrentPosition() {
-        return this.mdP.getCurrentPosition();
+        if(this.mdP != null) {
+            return this.mdP.getCurrentPosition();
+        }
+        return 0;
     }
 
     @Override
     public void seekTo(int pos) {
-        this.mdP.seekTo(pos);
+        if(this.mdP != null) {
+            this.mdP.seekTo(pos);
+        }
     }
 
     @Override
     public boolean isPlaying() {
-        return this.mdP.isPlaying();
+        if(this.mdP != null) {
+            return this.mdP.isPlaying();
+        }
+        return false;
     }
 
     @Override
