@@ -137,6 +137,7 @@ public class InterestPointActivity extends AppCompatActivity {
                 if(tmpFile != null){
                     //Decode the file into a bitmap
                     tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
+                    tmpBitmap = ThumbnailUtils.extractThumbnail(tmpBitmap, AppParams.THUMB_SIZE, AppParams.THUMB_SIZE);
                     //Put the created bitmap into an array to be pass to the ImageAdapter
                     if(tmpBitmap != null){
                         this.myBitmap.add(tmpBitmap);
@@ -173,6 +174,7 @@ public class InterestPointActivity extends AppCompatActivity {
                 if(tmpFile != null){
                     //Decode the file into a bitmap
                     tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
+                    tmpBitmap = ThumbnailUtils.extractThumbnail(tmpBitmap, AppParams.THUMB_SIZE, AppParams.THUMB_SIZE);
                     //Put the created bitmap into an array to be pass to the ImageAdapter
                     if(tmpBitmap != null){
                         this.myBitmap.add(tmpBitmap);
@@ -209,6 +211,7 @@ public class InterestPointActivity extends AppCompatActivity {
                 if(tmpFile != null){
                     //Decode the file into a bitmap
                     tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
+                    tmpBitmap = ThumbnailUtils.extractThumbnail(tmpBitmap, AppParams.THUMB_SIZE, AppParams.THUMB_SIZE);
                     //Put the created bitmap into an array to be pass to the ImageAdapter
                     if(tmpBitmap != null){
                         this.myBitmap.add(tmpBitmap);

@@ -8,6 +8,7 @@ import com.ceri.visitechateau.entities.chateau.Visit;
  */
 public class AppParams {
     public static AppParams instance;
+    public static final int THUMB_SIZE = 200;
 
     // singleton
     public static AppParams getInstance() {

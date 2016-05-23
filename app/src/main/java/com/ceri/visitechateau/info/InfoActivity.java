@@ -3,6 +3,7 @@ package com.ceri.visitechateau.info;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -115,6 +116,7 @@ public class InfoActivity extends AppCompatActivity {
                 if (tmpFile != null) {
                     //Decode the file into a bitmap
                     tmpBitmap = BitmapFactory.decodeFile(tmpFile.getAbsolutePath());
+                    tmpBitmap = ThumbnailUtils.extractThumbnail(tmpBitmap, AppParams.THUMB_SIZE, AppParams.THUMB_SIZE);
                     //Put the created bitmap into an array to be pass to the ImageAdapter
                     if (tmpBitmap != null) {
                         this.myBitmap.add(tmpBitmap);
